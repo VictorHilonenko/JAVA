@@ -2,25 +2,29 @@ package ua.training.model;
 
 import java.util.ArrayList;
 
+import ua.training.model.entities.GraphicFile;
+
 public class SlideShowGraphicFilesCollection {
-    private ArrayList graphicFilesList;
+    private ArrayList<GraphicFile> graphicFilesList;
 
     public SlideShowGraphicFilesCollection(String pathToFolder)  {
-        this.graphicFilesList = new ArrayList(); 
+        this.graphicFilesList = new ArrayList<GraphicFile>(); 
+        
+        //abstract fabric dependent by extension
         
         //TODO fill list
     }
 
-	public SlideShowGraphicFilesCollection(ArrayList newGraphicFilesList) {
+	public SlideShowGraphicFilesCollection(ArrayList<GraphicFile> newGraphicFilesList) {
 		// TODO add this type of constructor
 	}
 
-	public ArrayList getGraphicFilesList() {
+	public ArrayList<GraphicFile> getGraphicFilesList() {
 		return graphicFilesList;
 	}
 
     public SlideShowGraphicFilesCollection filterGraphicFilesBySize(long minSize, long maxSize) {
-        ArrayList newGraphicFilesList = new ArrayList();
+        ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>();
         
         //TODO filter this collection and return the result in new instance of SlideShowGraphicFilesCollection
         
@@ -28,7 +32,7 @@ public class SlideShowGraphicFilesCollection {
     }
 
     public SlideShowGraphicFilesCollection filterGraphicFilesByLastModified(long minDateModified, long maxDateModified) {
-        ArrayList newGraphicFilesList = new ArrayList();
+        ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>();
         
         //TODO filter this collection and return the result in new instance of SlideShowGraphicFilesCollection
         
@@ -36,7 +40,7 @@ public class SlideShowGraphicFilesCollection {
     }
 
     public SlideShowGraphicFilesCollection filterGraphicFilesByTAGs(String... tags) {
-        ArrayList newGraphicFilesList = new ArrayList();
+        ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>();
         
         //TODO filter this collection and return the result in new instance of SlideShowGraphicFilesCollection
         

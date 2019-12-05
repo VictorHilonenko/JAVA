@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import ua.training.controller.ConfigSettings;
 import ua.training.model.entities.FileExtensionsVector;
 import ua.training.model.entities.GraphicFile;
 import ua.training.model.entities.RasterGraphicFile;
@@ -58,7 +59,6 @@ public class SlideShowGraphicFilesCollectionTest {
 		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
 		
 		assertTrue(slideShowGraphicFilesCollection.getGraphicFilesList().size() == 3); //that means that Constructor builds that list)
-		
 	}
 	
 	@Test
@@ -71,8 +71,13 @@ public class SlideShowGraphicFilesCollectionTest {
 	}
 	
 	@Test
+	//important note:
+	//this test is written only for TDD and is actual only in certain case on certain computer
+	//so after this Constructor is done and checked, it is recommended to disable this test 
 	public void testSlideShowGraphicFilesCollectionBasedOnFolder() {
-		fail("Not yet implemented");
+		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(ConfigSettings.PATH_TO_FOLDER_WITH_GRAPHIC_FILES);
+		
+		assertTrue(slideShowGraphicFilesCollection.slideShowFilesTotalSize() == 478864L);
 	}
 
 	@Test

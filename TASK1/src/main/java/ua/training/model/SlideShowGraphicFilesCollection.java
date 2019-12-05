@@ -63,7 +63,9 @@ public class SlideShowGraphicFilesCollection {
     public long slideShowFilesTotalSize() {
         long res = 0;
     	
-        //TODO count total size
+    	for(GraphicFile graphicFile: graphicFilesList) {
+    		res += graphicFile.getFileSize();
+    	}
         
         return res;
     }

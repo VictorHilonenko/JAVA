@@ -5,5 +5,17 @@ public enum FileExtensionsVector {
     EPS,
     PDF,
     AI,
-    DXF
+    DXF;
+    
+	public static FileExtensionsVector getValueOf(String name) {
+    	FileExtensionsVector res = null;
+    	
+    	for (FileExtensionsVector value : values()) {
+    	    if(value.name().equals(name)) {
+    	    	res = value;
+    	    	break;
+    	    }
+    	}    	
+    	return res;
+    }
 }

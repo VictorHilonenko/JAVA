@@ -1,6 +1,8 @@
 package ua.training.model.entities;
 
+import java.io.File;
 import java.util.HashSet;
+import java.util.Random;
 
 public class GraphicFile {
     private String name;
@@ -8,9 +10,49 @@ public class GraphicFile {
     private long fileSize;
     private long lastModified;
     private HashSet<String> setOfTags;
+    
+    public static String getFileExtension(String absolutePath) {
+		String res = "";
+		
+		int lastPoint = absolutePath.lastIndexOf(".");
+		
+		if(lastPoint > - 1) {
+			res = absolutePath.substring(lastPoint+1);
+		}
+		
+		return res;
+	}
+
+    public static String getFileNameWithoutExtension(String absolutePath) {
+		String res = "";
+		
+		int lastSlash = absolutePath.lastIndexOf("\\");
+		int lastPoint = absolutePath.lastIndexOf(".");
+		
+		if((lastPoint > - 1) && (lastSlash > -1)) {
+			res = absolutePath.substring(lastSlash+1, lastPoint);
+		}
+		
+		return res;
+	}
 
     public GraphicFile() {
-    	setOfTags = new HashSet<String>();
+    	this.setOfTags = new HashSet<String>();
+	}
+
+    public GraphicFile(File file) {
+    	setPathToFile(file.getAbsolutePath()); 
+    	setName(getFileNameWithoutExtension(getPathToFile())); 
+    	setFileSize(file.length());
+		setLastModified(file.lastModified());
+    	
+    	this.setOfTags = new HashSet<String>();
+    	
+    	//TODO fill tags from file data in future releases, now random data:
+		int numOfTags = getRandomNumber(arrayOfTags.length/2)+1;
+		for(int i=0;i<=numOfTags-1;i++) {
+			addTag(getRandomTag());
+		}
 	}
 
 	public String getName() {
@@ -73,4 +115,15 @@ public class GraphicFile {
 		setOfTags.add(tag);
 	}
 
+	private static String arrayOfTags[] = {"humor", "signs", "road", "nature", "unusual"};
+	
+	private static int getRandomNumber(int maxVal) {
+        Random rand = new Random();
+        return (int) rand.nextInt(maxVal);
+	}
+	
+	private static String getRandomTag() {
+		return arrayOfTags[getRandomNumber(arrayOfTags.length-1)];
+	}
+	
 }

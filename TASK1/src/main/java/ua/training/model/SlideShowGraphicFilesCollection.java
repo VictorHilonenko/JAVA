@@ -1,18 +1,57 @@
 package ua.training.model;
 
+import java.io.File;
 import java.util.ArrayList;
-
+import ua.training.model.entities.VectorGraphicFile;
+import ua.training.model.entities.FileExtensionsRaster;
+import ua.training.model.entities.FileExtensionsVector;
 import ua.training.model.entities.GraphicFile;
+import ua.training.model.entities.RasterGraphicFile;
 
 public class SlideShowGraphicFilesCollection {
     private ArrayList<GraphicFile> graphicFilesList;
 
     public SlideShowGraphicFilesCollection(String pathToFolder)  {
         this.graphicFilesList = new ArrayList<GraphicFile>(); 
-        
-        //factory pattern dependent on extension
-        
-        //TODO fill list
+
+    	if("".equals(pathToFolder)) {
+    		return;
+    	}
+    	
+		File myFolder = new File(pathToFolder);
+		if(!myFolder.exists()) {
+			//TODO throw exception in future releases
+			return;
+		}
+		
+		File[] files = myFolder.listFiles();
+		
+		if(files.length == 0) {
+			return;
+		}
+		
+		ArrayList<GraphicFile> availableGraphicFilesList = new ArrayList<GraphicFile>();
+		
+		for(File file: files) {
+			
+			GraphicFile graphicFile = null;
+			
+			String fileExtensionUpperCase = GraphicFile.getFileExtension(file.getAbsolutePath()).toUpperCase();
+			
+			if(FileExtensionsVector.getValueOf(fileExtensionUpperCase) != null) {
+				graphicFile = new VectorGraphicFile(file);
+			} else if(FileExtensionsRaster.getValueOf(fileExtensionUpperCase) != null) {
+				graphicFile = new RasterGraphicFile(file);
+			} else {
+				//simply ignore unknown file extensions
+				continue;
+			}
+			
+			availableGraphicFilesList.add(graphicFile);
+		}
+    	
+    	
+        this.graphicFilesList.addAll(availableGraphicFilesList); 
     }
 
 	public SlideShowGraphicFilesCollection(ArrayList<GraphicFile> newGraphicFilesList) {

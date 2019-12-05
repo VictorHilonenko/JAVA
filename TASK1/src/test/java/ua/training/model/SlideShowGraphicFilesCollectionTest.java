@@ -82,7 +82,13 @@ public class SlideShowGraphicFilesCollectionTest {
 
 	@Test
 	public void testFilterGraphicFilesBySize() {
-		fail("Not yet implemented");
+		ArrayList<GraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
+		
+		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		
+		SlideShowGraphicFilesCollection filteredSlideShowGraphicFilesCollection = slideShowGraphicFilesCollection.filterGraphicFilesBySize(100002L, 100002L);
+		
+		assertEquals("incorrect filtering by size!", 100002L, slideShowGraphicFilesCollection.slideShowFilesTotalSize());
 	}
 
 	@Test

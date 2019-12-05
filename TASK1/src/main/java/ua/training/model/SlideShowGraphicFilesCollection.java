@@ -10,7 +10,7 @@ public class SlideShowGraphicFilesCollection {
     public SlideShowGraphicFilesCollection(String pathToFolder)  {
         this.graphicFilesList = new ArrayList<GraphicFile>(); 
         
-        //abstract fabric dependent by extension
+        //factory pattern dependent on extension
         
         //TODO fill list
     }

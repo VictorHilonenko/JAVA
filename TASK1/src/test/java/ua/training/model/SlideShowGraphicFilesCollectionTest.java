@@ -19,9 +19,9 @@ public class SlideShowGraphicFilesCollectionTest {
 		
 		VectorGraphicFile graphicFile1 = new VectorGraphicFile();
 		graphicFile1.setPathToFile("D:\\Documents\\Java\\Tasks\\TASK1\\graphicFiles\\1.svg");
-		graphicFile1.setFileSize(100001);
+		graphicFile1.setFileSize(100003);
 		graphicFile1.setName("1");
-		graphicFile1.setLastModified(1575160669801L);
+		graphicFile1.setLastModified(1575160669901L);
 		graphicFile1.setFileExtension(FileExtensionsVector.SVG);
 		graphicFile1.addTag("signs");
 		
@@ -31,7 +31,7 @@ public class SlideShowGraphicFilesCollectionTest {
 		graphicFile2.setPathToFile("D:\\Documents\\Java\\Tasks\\TASK1\\graphicFiles\\2.jpg");
 		graphicFile2.setFileSize(100002);
 		graphicFile2.setName("2");
-		graphicFile2.setLastModified(1575160669901L);
+		graphicFile2.setLastModified(1575160669801L);
 		graphicFile2.addTag("humor");
 		graphicFile2.addTag("road");
 		
@@ -39,7 +39,7 @@ public class SlideShowGraphicFilesCollectionTest {
 		
 		RasterGraphicFile graphicFile3 = new RasterGraphicFile();
 		graphicFile3.setPathToFile("D:\\Documents\\Java\\Tasks\\TASK1\\graphicFiles\\3.jpg");
-		graphicFile3.setFileSize(100003);
+		graphicFile3.setFileSize(100001);
 		graphicFile3.setName("3");
 		graphicFile3.setLastModified(1575160669952L);
 		graphicFile3.setHeightPixels(100);
@@ -115,17 +115,41 @@ public class SlideShowGraphicFilesCollectionTest {
 
 	@Test
 	public void testSortGraphicFilesBySize() {
-		fail("Not yet implemented");
+		ArrayList<GraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
+		
+		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		slideShowGraphicFilesCollection.sortGraphicFilesBySize();
+		
+		GraphicFile firstGraphicFile = slideShowGraphicFilesCollection.getGraphicFilesList().get(0);
+		
+		
+		assertEquals("incorrect sorting by size!", "3", firstGraphicFile.getName());
 	}
 
 	@Test
 	public void testSortGraphicFilesByLastModified() {
-		fail("Not yet implemented");
+		ArrayList<GraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
+		
+		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		slideShowGraphicFilesCollection.sortGraphicFilesByLastModified();
+		
+		GraphicFile firstGraphicFile = slideShowGraphicFilesCollection.getGraphicFilesList().get(0);
+		
+		
+		assertEquals("incorrect sorting by size!", "2", firstGraphicFile.getName());
 	}
 
 	@Test
 	public void testSortGraphicFilesByTAGs() {
-		fail("Not yet implemented");
+		ArrayList<GraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
+		
+		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		slideShowGraphicFilesCollection.sortGraphicFilesByTAGs();
+		
+		GraphicFile firstGraphicFile = slideShowGraphicFilesCollection.getGraphicFilesList().get(0);
+		
+		
+		assertEquals("incorrect sorting by size!", "2", firstGraphicFile.getName());
 	}
 
 }

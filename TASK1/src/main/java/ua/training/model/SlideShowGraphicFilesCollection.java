@@ -14,7 +14,17 @@ import ua.training.model.entities.RasterGraphicFile;
 
 public class SlideShowGraphicFilesCollection {
     private ArrayList<GraphicFile> graphicFilesList;
+    
+    /**
+     * this constructor creates graphicFilesList based on given list @param newGraphicFilesList
+     */
+	public SlideShowGraphicFilesCollection(ArrayList<GraphicFile> newGraphicFilesList) {
+        this.graphicFilesList = new ArrayList<GraphicFile>(newGraphicFilesList); 
+	}
 
+    /**
+     * this constructor creates graphicFilesList based on @param pathToFolder contents
+     */
     public SlideShowGraphicFilesCollection(String pathToFolder)  {
         this.graphicFilesList = new ArrayList<GraphicFile>(); 
 
@@ -58,14 +68,14 @@ public class SlideShowGraphicFilesCollection {
         this.graphicFilesList.addAll(availableGraphicFilesList); 
     }
 
-	public SlideShowGraphicFilesCollection(ArrayList<GraphicFile> newGraphicFilesList) {
-        this.graphicFilesList = new ArrayList<GraphicFile>(newGraphicFilesList); 
-	}
-
 	public ArrayList<GraphicFile> getGraphicFilesList() {
 		return graphicFilesList;
 	}
-
+	
+	/**
+	 * this method filters current SlideShowGraphicFilesCollection by the range of @param minSize and @param maxSize
+	 * and returns a new SlideShowGraphicFilesCollection
+	 */
     public SlideShowGraphicFilesCollection filterGraphicFilesBySize(long minSize, long maxSize) {
         if((minSize < 0) || (maxSize < 0)) {
         	//TODO maybe throw exception "invalid parameters" in future releases
@@ -98,6 +108,10 @@ public class SlideShowGraphicFilesCollection {
         return new SlideShowGraphicFilesCollection(newGraphicFilesList);
     }
 
+	/**
+	 * this method filters current SlideShowGraphicFilesCollection by the range of @param minDateModified and @param maxDateModified
+	 * and returns a new SlideShowGraphicFilesCollection
+	 */
     public SlideShowGraphicFilesCollection filterGraphicFilesByLastModified(long minDateModified, long maxDateModified) {
         if((minDateModified < 0) || (maxDateModified < 0)) {
         	//TODO maybe throw exception "invalid parameters" in future releases
@@ -130,6 +144,10 @@ public class SlideShowGraphicFilesCollection {
         return new SlideShowGraphicFilesCollection(newGraphicFilesList);
     }
 
+	/**
+	 * this method filters current SlideShowGraphicFilesCollection by @param tags
+	 * and returns a new SlideShowGraphicFilesCollection
+	 */
     public SlideShowGraphicFilesCollection filterGraphicFilesByTAGs(String... tags) {
         ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>();
         
@@ -147,6 +165,9 @@ public class SlideShowGraphicFilesCollection {
         return new SlideShowGraphicFilesCollection(newGraphicFilesList);
     }
     
+    /**
+     * sorts current graphicFilesList in Ascending order by file size 
+     */
     public void sortGraphicFilesBySize() {
     	TreeMap<Integer, Long> entries = new TreeMap<Integer, Long>();
     	
@@ -167,6 +188,9 @@ public class SlideShowGraphicFilesCollection {
     	graphicFilesList = newGraphicFilesList;
     }
 
+    /**
+     * sorts current graphicFilesList in Ascending order by last modified datetime
+     */
     public void sortGraphicFilesByLastModified() {
     	TreeMap<Integer, Long> entries = new TreeMap<Integer, Long>();
     	
@@ -187,7 +211,9 @@ public class SlideShowGraphicFilesCollection {
     	graphicFilesList = newGraphicFilesList;
     }
 
-    //note: sort by first TAG
+    /**
+     * sorts current graphicFilesList in Ascending order by first TAG 
+     */
     public void sortGraphicFilesByTAGs() {
     	TreeMap<Integer, String> entries = new TreeMap<Integer, String>();
     	
@@ -208,6 +234,9 @@ public class SlideShowGraphicFilesCollection {
     	graphicFilesList = newGraphicFilesList;
     }
     
+    /**
+     * this method returns total files size of current SlideShowGraphicFilesCollection
+     */
     public long slideShowFilesTotalSize() {
         long res = 0;
     	
@@ -218,7 +247,10 @@ public class SlideShowGraphicFilesCollection {
         return res;
     }
     
-	private static <K, V extends Comparable<V>> TreeMap<K, V> sortByValues(final TreeMap<K, V> map) {
+	/**
+	 * this is internal private method that helps to order/sort current SlideShowGraphicFilesCollection
+	 */
+    private static <K, V extends Comparable<V>> TreeMap<K, V> sortByValues(final TreeMap<K, V> map) {
 		Comparator<K> valueComparator = new Comparator<K>() {
 			public int compare(K k1, K k2) {
 				int compare = map.get(k1).compareTo(map.get(k2));

@@ -12,9 +12,8 @@ import ua.training.model.entities.RasterGraphicFile;
 import ua.training.model.entities.VectorGraphicFile;
 
 public class SlideShowGraphicFilesCollectionTest {
-
-	@Test
-	public void testSlideShowGraphicFilesCollectionBasedOnList() {
+	
+	private ArrayList<GraphicFile> createAnExampleListOfFiles() {
 		ArrayList<GraphicFile> availableGraphicFilesList = new ArrayList<GraphicFile>();
 		
 		VectorGraphicFile graphicFile1 = new VectorGraphicFile();
@@ -48,6 +47,14 @@ public class SlideShowGraphicFilesCollectionTest {
 		
 		availableGraphicFilesList.add(graphicFile3);
 		
+		return availableGraphicFilesList;
+	} 
+	
+	
+	@Test
+	public void testSlideShowGraphicFilesCollectionBasedOnList() {
+		ArrayList<GraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
+		
 		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
 		
 		assertTrue(slideShowGraphicFilesCollection.getGraphicFilesList().size() == 3); //that means that Constructor builds that list)
@@ -56,7 +63,11 @@ public class SlideShowGraphicFilesCollectionTest {
 	
 	@Test
 	public void testSlideShowFilesTotalSize() {
-		fail("Not yet implemented");
+		ArrayList<GraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
+		
+		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		
+		assertTrue(slideShowGraphicFilesCollection.slideShowFilesTotalSize() == 300006L);
 	}
 	
 	@Test

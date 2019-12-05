@@ -16,7 +16,7 @@ public class SlideShowGraphicFilesCollection {
     }
 
 	public SlideShowGraphicFilesCollection(ArrayList<GraphicFile> newGraphicFilesList) {
-		// TODO add this type of constructor
+        this.graphicFilesList = new ArrayList<GraphicFile>(newGraphicFilesList); 
 	}
 
 	public ArrayList<GraphicFile> getGraphicFilesList() {
@@ -60,7 +60,12 @@ public class SlideShowGraphicFilesCollection {
     	//TODO sort it
     }
     
-    
-	
+    public long slideShowFilesTotalSize() {
+        long res = 0;
+    	
+        //TODO count total size
+        
+        return res;
+    }
     
 }

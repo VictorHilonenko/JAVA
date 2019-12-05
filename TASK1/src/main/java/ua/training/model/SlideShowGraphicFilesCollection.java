@@ -96,9 +96,33 @@ public class SlideShowGraphicFilesCollection {
     }
 
     public SlideShowGraphicFilesCollection filterGraphicFilesByLastModified(long minDateModified, long maxDateModified) {
-        ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>();
-        
-        //TODO filter this collection and return the result in new instance of SlideShowGraphicFilesCollection
+        if((minDateModified < 0) || (maxDateModified < 0)) {
+        	//TODO maybe throw exception "invalid parameters" in future releases
+        	return null;
+        }
+    	
+        ArrayList<GraphicFile> newGraphicFilesList;
+        if((minDateModified == 0) && (maxDateModified == 0)) {
+        	newGraphicFilesList = graphicFilesList;
+        } else {
+        	newGraphicFilesList = new ArrayList<GraphicFile>();
+        	for(GraphicFile graphicFile: graphicFilesList) {
+        		long fileLastModified = graphicFile.getLastModified();
+	        	if ((minDateModified > 0) && (maxDateModified == 0)) {
+	        		if(fileLastModified >= minDateModified) {
+	        			newGraphicFilesList.add(graphicFile);
+	        		}
+	            } else if ((minDateModified == 0) && (maxDateModified > 0)) {
+	        		if(fileLastModified <= maxDateModified) {
+	        			newGraphicFilesList.add(graphicFile);
+	        		}
+	            } else {
+	        		if((minDateModified <= fileLastModified) && (fileLastModified <= maxDateModified)) {
+	        			newGraphicFilesList.add(graphicFile);
+	        		}
+	            }
+        	}
+        }
         
         return new SlideShowGraphicFilesCollection(newGraphicFilesList);
     }
@@ -106,7 +130,16 @@ public class SlideShowGraphicFilesCollection {
     public SlideShowGraphicFilesCollection filterGraphicFilesByTAGs(String... tags) {
         ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>();
         
-        //TODO filter this collection and return the result in new instance of SlideShowGraphicFilesCollection
+        if(tags.length > 0) {
+        	for(GraphicFile graphicFile: graphicFilesList) {
+        		for(String tag: tags) {
+        			if(graphicFile.hasTag(tag)) {
+        				newGraphicFilesList.add(graphicFile);
+	            		break;
+        			}
+        		}
+        	}
+        }
         
         return new SlideShowGraphicFilesCollection(newGraphicFilesList);
     }

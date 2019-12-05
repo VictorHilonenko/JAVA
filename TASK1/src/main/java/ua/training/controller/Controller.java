@@ -1,10 +1,13 @@
-package ua.training;
+package ua.training.controller;
 
 import java.util.Scanner;
 
+import ua.training.model.SlideShowGraphicFilesCollection;
+import ua.training.view.View;
+
 /**
- * TODO create a CONFIG interface with a constant that will 
- * set an option of controller's working mode: interactive or fully automatic
+ * ConfigSettings interface has an option of controller's working mode
+ * and some other options to emulate user's activity in automatic mode
  * 
  * here we will ask (or emulate user's answer according to a CONFIG constant) 
  * 1. to input path to folder
@@ -38,7 +41,21 @@ public class Controller {
     // Interaction
     public void processUserInput() {
         //this.view.printMessage(view.bundle.getString(TextConstants.GREETING));
+        Scanner sc = getScannerInstance();
         
+        String pathToFolderWithGraphicFiles = "";
+        
+        if(ConfigSettings.INTERACTIVE_MODE) {
+	        if(sc.hasNextLine()) {
+	        	pathToFolderWithGraphicFiles = sc.nextLine();
+	        }
+        } else {
+        	pathToFolderWithGraphicFiles = ConfigSettings.PATH_TO_FOLDER_WITH_GRAPHIC_FILES;
+        }
+        
+		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(pathToFolderWithGraphicFiles);
+        
+		
     }
 
 }

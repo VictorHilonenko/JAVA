@@ -1,5 +1,8 @@
 package ua.training;
 
+import ua.training.controller.Controller;
+import ua.training.view.View;
+
 /**
  * Task 1
  * 

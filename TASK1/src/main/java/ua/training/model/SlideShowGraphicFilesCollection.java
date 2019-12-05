@@ -2,6 +2,9 @@ package ua.training.model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 
 import ua.training.model.entities.VectorGraphicFile;
 import ua.training.model.entities.FileExtensionsRaster;
@@ -145,16 +148,64 @@ public class SlideShowGraphicFilesCollection {
     }
     
     public void sortGraphicFilesBySize() {
-    	//TODO sort it
+    	TreeMap<Integer, Long> entries = new TreeMap<Integer, Long>();
+    	
+    	int i = 0;
+    	for(GraphicFile graphicFile: graphicFilesList) {
+   			entries.put(i, graphicFile.getFileSize());
+    		i++;
+    	}
+    	
+    	TreeMap<Integer, Long> sortedTreeMap = sortByValues(entries);
+    	
+    	ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>();
+    	
+    	for(Map.Entry<Integer, Long> entry: sortedTreeMap.entrySet()) {
+    		newGraphicFilesList.add((GraphicFile) graphicFilesList.get(entry.getKey()));
+    	}
+    	
+    	graphicFilesList = newGraphicFilesList;
     }
 
     public void sortGraphicFilesByLastModified() {
-    	//TODO sort it
+    	TreeMap<Integer, Long> entries = new TreeMap<Integer, Long>();
+    	
+    	int i = 0;
+    	for(GraphicFile graphicFile: graphicFilesList) {
+   			entries.put(i, graphicFile.getLastModified());
+    		i++;
+    	}
+    	
+    	TreeMap<Integer, Long> sortedTreeMap = sortByValues(entries);
+    	
+    	ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>();
+    	
+    	for(Map.Entry<Integer, Long> entry: sortedTreeMap.entrySet()) {
+    		newGraphicFilesList.add((GraphicFile) graphicFilesList.get(entry.getKey()));
+    	}
+    	
+    	graphicFilesList = newGraphicFilesList;
     }
 
-    //sort by first TAG
+    //note: sort by first TAG
     public void sortGraphicFilesByTAGs() {
-    	//TODO sort it
+    	TreeMap<Integer, String> entries = new TreeMap<Integer, String>();
+    	
+    	int i = 0;
+    	for(GraphicFile graphicFile: graphicFilesList) {
+   			entries.put(i, graphicFile.getTagByIndex(0));
+    		i++;
+    	}
+    	
+    	TreeMap<Integer, String> sortedTreeMap = sortByValues(entries);
+    	
+    	ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>();
+    	
+    	for(Map.Entry<Integer, String> entry: sortedTreeMap.entrySet()) {
+    		newGraphicFilesList.add((GraphicFile) graphicFilesList.get(entry.getKey()));
+    	}
+    	
+    	graphicFilesList = newGraphicFilesList;
     }
     
     public long slideShowFilesTotalSize() {
@@ -167,4 +218,20 @@ public class SlideShowGraphicFilesCollection {
         return res;
     }
     
+	private static <K, V extends Comparable<V>> TreeMap<K, V> sortByValues(final TreeMap<K, V> map) {
+		Comparator<K> valueComparator = new Comparator<K>() {
+			public int compare(K k1, K k2) {
+				int compare = map.get(k1).compareTo(map.get(k2));
+				if (compare == 0) {
+					return 1;
+				} else {
+					return compare;
+				}
+			}
+		};
+
+		TreeMap<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);
+		sortedByValues.putAll(map);
+		return sortedByValues;
+	}
 }

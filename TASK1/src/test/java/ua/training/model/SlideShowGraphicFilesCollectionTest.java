@@ -122,7 +122,6 @@ public class SlideShowGraphicFilesCollectionTest {
 		
 		GraphicFile firstGraphicFile = slideShowGraphicFilesCollection.getGraphicFilesList().get(0);
 		
-		
 		assertEquals("incorrect sorting by size!", "3", firstGraphicFile.getName());
 	}
 

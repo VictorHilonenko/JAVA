@@ -1,13 +1,20 @@
 package ua.training.controller;
 
+import java.util.Locale;
+
 public interface ConfigSettings {
-    /**
+	/**
      * if INTERACTIVE_MODE is "true"
      * we'll let user to input initializing data manually
      * otherwise we'll emulate it programmatically
      */
 	public static final boolean INTERACTIVE_MODE = true; //false
 	
+    /**
+     * language setting
+     */
+	public static final Locale USER_LOCALE = new Locale("en", "US"); //new Locale("uk", "UA");
+    
     /**
      * a real folder with some pictures
      */
@@ -29,5 +36,8 @@ public interface ConfigSettings {
      * a tag to filter
      */
 	public static final String TAG_TO_FILTER = "signs";
+
+	public static final String HOW_TO_FILTER = "1";
 	
+	public static final String HOW_TO_SORT = "1";
 }

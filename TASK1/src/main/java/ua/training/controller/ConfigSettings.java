@@ -2,13 +2,16 @@ package ua.training.controller;
 
 import java.util.Locale;
 
+/**
+ * this class is for all settings of project
+ */
 public interface ConfigSettings {
 	/**
      * if INTERACTIVE_MODE is "true"
      * we'll let user to input initializing data manually
      * otherwise we'll emulate it programmatically
      */
-	public static final boolean INTERACTIVE_MODE = true; //false
+	public static final boolean INTERACTIVE_MODE = false; //true; //
 	
     /**
      * language setting

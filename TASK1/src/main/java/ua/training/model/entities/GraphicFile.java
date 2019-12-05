@@ -3,6 +3,7 @@ package ua.training.model.entities;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.StringJoiner;
 
 public class GraphicFile {
     private String name;
@@ -11,7 +12,7 @@ public class GraphicFile {
     private long lastModified;
     private HashSet<String> setOfTags;
     
-    public static String getFileExtension(String absolutePath) {
+	public static String getFileExtension(String absolutePath) {
 		String res = "";
 		
 		int lastPoint = absolutePath.lastIndexOf(".");
@@ -114,7 +115,17 @@ public class GraphicFile {
 	public void addTag(String tag) {
 		setOfTags.add(tag);
 	}
-
+	
+    public String getTags() {
+		StringJoiner sj = new StringJoiner(" #", " [#", "]");
+    	
+		for(String tag: setOfTags) {
+			sj.add(tag);
+		}
+		
+    	return sj.toString();
+	}
+	
 	private static String arrayOfTags[] = {"humor", "signs", "road", "nature", "unusual"};
 	
 	private static int getRandomNumber(int maxVal) {

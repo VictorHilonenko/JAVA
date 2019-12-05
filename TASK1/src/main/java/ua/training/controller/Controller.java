@@ -7,6 +7,8 @@ import ua.training.view.TextConstants;
 import ua.training.view.View;
 
 /**
+ * this is a Controller class of MVC pattern
+ * 
  * ConfigSettings interface has an option of controller's working mode
  * and some other options to emulate user's activity in automatic mode
  * 
@@ -149,6 +151,7 @@ public class Controller {
 		this.view.printMessage(view.bundle.getString(TextConstants.RESULT_AFTER_SORTING));
     	this.view.showSlideShow(filteredSlideShow);
     	
+    	this.view.printMessage(view.bundle.getString(TextConstants.GOOD_LUCK));
     }
 
 }

@@ -1,10 +1,10 @@
 package ua.training.view;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import ua.training.controller.ConfigSettings;
 import ua.training.model.SlideShowGraphicFilesCollection;
+import ua.training.model.entities.GraphicFile;
 
 public class View {
 	
@@ -18,9 +18,20 @@ public class View {
     }
 
 	public void showSlideShow(SlideShowGraphicFilesCollection slideShowGraphicFilesCollection) {
-		// TODO rendering will be here
-		//don't forget to show total size of its files
-		System.out.println("Slide show: "+slideShowGraphicFilesCollection.toString());
+		System.out.println("================================================");
+    	printMessage(bundle.getString(TextConstants.SLIDE_SHOW));
+    	printMessage(bundle.getString(TextConstants.NUMBER_OF_FILES)+" "+slideShowGraphicFilesCollection.getGraphicFilesList().size());
+    	printMessage(bundle.getString(TextConstants.TOTAL_SIZE_OF_FILES)+" "+slideShowGraphicFilesCollection.slideShowFilesTotalSize());
+    	printMessage(bundle.getString(TextConstants.LIST_OF_FILES));
+		
+    	String strBytes = bundle.getString(TextConstants.BYTES);
+    	
+    	for(GraphicFile graphicFile :slideShowGraphicFilesCollection.getGraphicFilesList()) {
+    		printMessage(graphicFile.getPathToFile()+" ("+graphicFile.getFileSize()+" "+strBytes+")"+graphicFile.getTags());
+    	}
+    	
+		System.out.println("================================================");
+		System.out.println("");
 	}
 
 }

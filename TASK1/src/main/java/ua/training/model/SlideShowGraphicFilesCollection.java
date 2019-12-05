@@ -12,6 +12,11 @@ import ua.training.model.entities.FileExtensionsVector;
 import ua.training.model.entities.GraphicFile;
 import ua.training.model.entities.RasterGraphicFile;
 
+/**
+ * this is a main Model class of MVC pattern
+ * SlideShowGraphicFilesCollection is a collection, that represents list of GraphicFiles
+ * which can be RasterGraphicFile or VectorGraphicFile
+ */
 public class SlideShowGraphicFilesCollection {
     private ArrayList<GraphicFile> graphicFilesList;
     
@@ -68,10 +73,26 @@ public class SlideShowGraphicFilesCollection {
         this.graphicFilesList.addAll(availableGraphicFilesList); 
     }
 
+    /**
+     * getter for graphicFilesList
+     */
 	public ArrayList<GraphicFile> getGraphicFilesList() {
 		return graphicFilesList;
 	}
 	
+    /**
+     * this method returns total files size of current SlideShowGraphicFilesCollection
+     */
+    public long slideShowFilesTotalSize() {
+        long res = 0;
+    	
+    	for(GraphicFile graphicFile: graphicFilesList) {
+    		res += graphicFile.getFileSize();
+    	}
+        
+        return res;
+    }
+    
 	/**
 	 * this method filters current SlideShowGraphicFilesCollection by the range of @param minSize and @param maxSize
 	 * and returns a new SlideShowGraphicFilesCollection
@@ -232,19 +253,6 @@ public class SlideShowGraphicFilesCollection {
     	}
     	
     	graphicFilesList = newGraphicFilesList;
-    }
-    
-    /**
-     * this method returns total files size of current SlideShowGraphicFilesCollection
-     */
-    public long slideShowFilesTotalSize() {
-        long res = 0;
-    	
-    	for(GraphicFile graphicFile: graphicFilesList) {
-    		res += graphicFile.getFileSize();
-    	}
-        
-        return res;
     }
     
 	/**

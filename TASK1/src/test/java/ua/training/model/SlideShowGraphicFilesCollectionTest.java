@@ -21,7 +21,7 @@ public class SlideShowGraphicFilesCollectionTest {
 		graphicFile1.setPathToFile("D:\\Documents\\Java\\Tasks\\TASK1\\graphicFiles\\1.svg");
 		graphicFile1.setFileSize(100001);
 		graphicFile1.setName("1");
-		graphicFile1.setLastModified(1575160669900L);
+		graphicFile1.setLastModified(1575160669801L);
 		graphicFile1.setFileExtension(FileExtensionsVector.SVG);
 		graphicFile1.addTag("signs");
 		
@@ -41,7 +41,7 @@ public class SlideShowGraphicFilesCollectionTest {
 		graphicFile3.setPathToFile("D:\\Documents\\Java\\Tasks\\TASK1\\graphicFiles\\3.jpg");
 		graphicFile3.setFileSize(100003);
 		graphicFile3.setName("3");
-		graphicFile3.setLastModified(1575160669902L);
+		graphicFile3.setLastModified(1575160669952L);
 		graphicFile3.setHeightPixels(100);
 		graphicFile3.setWidthPixels(100);
 		graphicFile3.addTag("signs");
@@ -88,17 +88,29 @@ public class SlideShowGraphicFilesCollectionTest {
 		
 		SlideShowGraphicFilesCollection filteredSlideShowGraphicFilesCollection = slideShowGraphicFilesCollection.filterGraphicFilesBySize(100002L, 100002L);
 		
-		assertEquals("incorrect filtering by size!", 100002L, slideShowGraphicFilesCollection.slideShowFilesTotalSize());
+		assertEquals("incorrect filtering by size!", 100002L, filteredSlideShowGraphicFilesCollection.slideShowFilesTotalSize());
 	}
 
 	@Test
 	public void testFilterGraphicFilesByLastModified() {
-		fail("Not yet implemented");
+		ArrayList<GraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
+		
+		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		
+		SlideShowGraphicFilesCollection filteredSlideShowGraphicFilesCollection = slideShowGraphicFilesCollection.filterGraphicFilesByLastModified(1575160669850L, 1575160669950L);
+		
+		assertEquals("incorrect filtering by last modified!", 1, filteredSlideShowGraphicFilesCollection.getGraphicFilesList().size());
 	}
 
 	@Test
 	public void testFilterGraphicFilesByTAGs() {
-		fail("Not yet implemented");
+		ArrayList<GraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
+		
+		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		
+		SlideShowGraphicFilesCollection filteredSlideShowGraphicFilesCollection = slideShowGraphicFilesCollection.filterGraphicFilesByTAGs("signs");
+		
+		assertEquals("incorrect filtering by tag!", 2, filteredSlideShowGraphicFilesCollection.getGraphicFilesList().size());
 	}
 
 	@Test

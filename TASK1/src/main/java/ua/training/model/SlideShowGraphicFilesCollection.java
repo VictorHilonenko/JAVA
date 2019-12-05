@@ -2,6 +2,7 @@ package ua.training.model;
 
 import java.io.File;
 import java.util.ArrayList;
+
 import ua.training.model.entities.VectorGraphicFile;
 import ua.training.model.entities.FileExtensionsRaster;
 import ua.training.model.entities.FileExtensionsVector;
@@ -63,9 +64,33 @@ public class SlideShowGraphicFilesCollection {
 	}
 
     public SlideShowGraphicFilesCollection filterGraphicFilesBySize(long minSize, long maxSize) {
-        ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>();
-        
-        //TODO filter this collection and return the result in new instance of SlideShowGraphicFilesCollection
+        if((minSize < 0) || (maxSize < 0)) {
+        	//TODO maybe throw exception "invalid parameters" in future releases
+        	return null;
+        }
+    	
+        ArrayList<GraphicFile> newGraphicFilesList;
+        if((minSize == 0) && (maxSize == 0)) {
+        	newGraphicFilesList = graphicFilesList;
+        } else {
+        	newGraphicFilesList = new ArrayList<GraphicFile>();
+        	for(GraphicFile graphicFile: graphicFilesList) {
+        		long fileSize = graphicFile.getFileSize();
+	        	if ((minSize > 0) && (maxSize == 0)) {
+	        		if(fileSize >= minSize) {
+	        			newGraphicFilesList.add(graphicFile);
+	        		}
+	            } else if ((minSize == 0) && (maxSize > 0)) {
+	        		if(fileSize <= maxSize) {
+	        			newGraphicFilesList.add(graphicFile);
+	        		}
+	            } else {
+	        		if((minSize <= fileSize) && (fileSize <= maxSize)) {
+	        			newGraphicFilesList.add(graphicFile);
+	        		}
+	            }
+        	}
+        }
         
         return new SlideShowGraphicFilesCollection(newGraphicFilesList);
     }

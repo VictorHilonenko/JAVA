@@ -1,4 +1,4 @@
-package ua.training.controller;
+package ua.training;
 
 import java.util.Locale;
 
@@ -16,7 +16,8 @@ public interface ConfigSettings {
     /**
      * language setting
      */
-	public static final Locale USER_LOCALE = new Locale("en", "US"); //new Locale("uk", "UA");
+	//public static final Locale USER_LOCALE = new Locale("en", "US");
+	public static final Locale USER_LOCALE = new Locale("uk", "UA");
     
     /**
      * a real folder with some pictures
@@ -43,4 +44,5 @@ public interface ConfigSettings {
 	public static final String HOW_TO_FILTER = "1";
 	
 	public static final String HOW_TO_SORT = "1";
+	
 }

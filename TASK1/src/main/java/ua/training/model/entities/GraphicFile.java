@@ -12,6 +12,8 @@ public class GraphicFile {
     private long lastModified;
     private HashSet<String> setOfTags;
     
+	private static String arrayOfTags[] = {"humor", "signs", "road", "nature", "unusual"};
+	
 	public static String getFileExtension(String absolutePath) {
 		String res = "";
 		
@@ -56,6 +58,45 @@ public class GraphicFile {
 		}
 	}
 
+    public boolean hasTag(String tag) {
+        return setOfTags.contains(tag);
+    }
+
+    public String getTagByIndex(int index) {
+    	String res = "";
+    	
+    	if(index >= 0) {
+    		if(setOfTags.size() > 0) {
+    			res = (String) setOfTags.toArray()[index];
+    		}
+    	}
+    	
+        return res;
+    }
+
+	public void addTag(String tag) {
+		setOfTags.add(tag);
+	}
+	
+    public String getTags() {
+		StringJoiner sj = new StringJoiner(" #", " [#", "]");
+    	
+		for(String tag: setOfTags) {
+			sj.add(tag);
+		}
+		
+    	return sj.toString();
+	}
+	
+	private static int getRandomNumber(int maxVal) {
+        Random rand = new Random();
+        return (int) rand.nextInt(maxVal);
+	}
+	
+	private static String getRandomTag() {
+		return arrayOfTags[getRandomNumber(arrayOfTags.length)];
+	}
+	
 	public String getName() {
         return name;
     }
@@ -96,45 +137,4 @@ public class GraphicFile {
         this.setOfTags = setOfTags;
     }
 
-    public boolean hasTag(String tag) {
-        return setOfTags.contains(tag);
-    }
-
-    public String getTagByIndex(int index) {
-    	String res = "";
-    	
-    	if(index >= 0) {
-    		if(setOfTags.size() > 0) {
-    			res = (String) setOfTags.toArray()[index];
-    		}
-    	}
-    	
-        return res;
-    }
-
-	public void addTag(String tag) {
-		setOfTags.add(tag);
-	}
-	
-    public String getTags() {
-		StringJoiner sj = new StringJoiner(" #", " [#", "]");
-    	
-		for(String tag: setOfTags) {
-			sj.add(tag);
-		}
-		
-    	return sj.toString();
-	}
-	
-	private static String arrayOfTags[] = {"humor", "signs", "road", "nature", "unusual"};
-	
-	private static int getRandomNumber(int maxVal) {
-        Random rand = new Random();
-        return (int) rand.nextInt(maxVal);
-	}
-	
-	private static String getRandomTag() {
-		return arrayOfTags[getRandomNumber(arrayOfTags.length-1)];
-	}
-	
 }

@@ -1,7 +1,9 @@
 package ua.training.controller;
 
+import java.util.Random;
 import java.util.Scanner;
 
+import ua.training.ConfigSettings;
 import ua.training.model.SlideShowGraphicFilesCollection;
 import ua.training.view.TextConstants;
 import ua.training.view.View;
@@ -44,14 +46,14 @@ public class Controller {
     // Interaction
     public void processUserInput() {
     	
-    	this.view.printMessage(view.bundle.getString(TextConstants.GREETING));
+    	this.view.printMessage(view.getBundleString(TextConstants.GREETING));
     	
         Scanner sc = getScannerInstance();
         
         String pathToFolderWithGraphicFiles = "";
         
         //* 1. to input path to folder
-    	this.view.printMessage(view.bundle.getString(TextConstants.INPUT_PATH_TO_FOLDER_WITH_GRAPHIC_FILES));
+    	this.view.printMessage(view.getBundleString(TextConstants.INPUT_PATH_TO_FOLDER_WITH_GRAPHIC_FILES));
         if(ConfigSettings.INTERACTIVE_MODE) {
 	        if(sc.hasNextLine()) {
 	        	pathToFolderWithGraphicFiles = sc.nextLine();
@@ -60,7 +62,7 @@ public class Controller {
         	pathToFolderWithGraphicFiles = ConfigSettings.PATH_TO_FOLDER_WITH_GRAPHIC_FILES;
         }
         
-    	this.view.printMessage(view.bundle.getString(TextConstants.YOU_ENTERED));
+    	this.view.printMessage(view.getBundleString(TextConstants.YOU_ENTERED));
     	this.view.printMessage(pathToFolderWithGraphicFiles);
         
     	//* 2. then we'll generate a SlideShow according to folder's contents
@@ -68,10 +70,10 @@ public class Controller {
 		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(pathToFolderWithGraphicFiles);
         
     	if(slideShowGraphicFilesCollection.getGraphicFilesList().size() == 0) {
-			this.view.printMessage(view.bundle.getString(TextConstants.NOT_CREATED));
+			this.view.printMessage(view.getBundleString(TextConstants.NOT_CREATED));
 			return;
     	} else {
-			this.view.printMessage(view.bundle.getString(TextConstants.WE_CREATED));
+			this.view.printMessage(view.getBundleString(TextConstants.WE_CREATED));
 	    	this.view.showSlideShow(slideShowGraphicFilesCollection);
     	}
     	
@@ -81,13 +83,14 @@ public class Controller {
     	//* 4.3. tags
     	String howToFilter = "";
     	
-    	this.view.printMessage(view.bundle.getString(TextConstants.INPUT_HOW_TO_FILTER));
+    	this.view.printMessage(view.getBundleString(TextConstants.INPUT_HOW_TO_FILTER));
         if(ConfigSettings.INTERACTIVE_MODE) {
 	        if(sc.hasNextLine()) {
 	        	howToFilter = sc.nextLine();
 	        }
         } else {
-        	howToFilter = ConfigSettings.HOW_TO_FILTER;
+        	howToFilter = Integer.toString(getRandomNumber(3)); 
+        	//howToFilter = ConfigSettings.HOW_TO_FILTER;
         }
     	
         SlideShowGraphicFilesCollection filteredSlideShow = null;
@@ -110,27 +113,28 @@ public class Controller {
 			
 			filteredSlideShow = slideShowGraphicFilesCollection.filterGraphicFilesByTAGs(tag);
 		} else {
-	    	this.view.printMessage(view.bundle.getString(TextConstants.INCORRECT_INPUT));
-	    	this.view.printMessage(view.bundle.getString(TextConstants.GOOD_BYE));
+	    	this.view.printMessage(view.getBundleString(TextConstants.INCORRECT_INPUT));
+	    	this.view.printMessage(view.getBundleString(TextConstants.GOOD_BYE));
 	    	return;
 		}
 		
    	 	//* 5. then we'll show that filtered collection
-    	this.view.printMessage(view.bundle.getString(TextConstants.YOU_ENTERED));
+    	this.view.printMessage(view.getBundleString(TextConstants.YOU_ENTERED));
     	this.view.printMessage(howToFilter);
-		this.view.printMessage(view.bundle.getString(TextConstants.WE_CREATED));
+		this.view.printMessage(view.getBundleString(TextConstants.RESULT_AFTER_FILTERING));
     	this.view.showSlideShow(filteredSlideShow);
 		
       	//* 6. then we'll ask user to choose a way how to sort that collection
     	String howToSort = "";
     	
-    	this.view.printMessage(view.bundle.getString(TextConstants.INPUT_HOW_TO_SORT));
+    	this.view.printMessage(view.getBundleString(TextConstants.INPUT_HOW_TO_SORT));
         if(ConfigSettings.INTERACTIVE_MODE) {
 	        if(sc.hasNextLine()) {
 	        	howToSort = sc.nextLine();
 	        }
         } else {
-        	howToSort = ConfigSettings.HOW_TO_SORT;
+        	howToSort = Integer.toString(getRandomNumber(3)); 
+        	//howToSort = ConfigSettings.HOW_TO_SORT;
         }
     	
       	//* 7. then we sort it and show the result to user
@@ -141,17 +145,21 @@ public class Controller {
 		} else if("3".equals(howToSort)) { //3 - by a tag:
 			filteredSlideShow.sortGraphicFilesByTAGs();
 		} else {
-	    	this.view.printMessage(view.bundle.getString(TextConstants.INCORRECT_INPUT));
-	    	this.view.printMessage(view.bundle.getString(TextConstants.GOOD_BYE));
+	    	this.view.printMessage(view.getBundleString(TextConstants.INCORRECT_INPUT));
+	    	this.view.printMessage(view.getBundleString(TextConstants.GOOD_BYE));
 	    	return;
 		}
 		
-    	this.view.printMessage(view.bundle.getString(TextConstants.YOU_ENTERED));
+    	this.view.printMessage(view.getBundleString(TextConstants.YOU_ENTERED));
     	this.view.printMessage(howToSort);
-		this.view.printMessage(view.bundle.getString(TextConstants.RESULT_AFTER_SORTING));
+		this.view.printMessage(view.getBundleString(TextConstants.RESULT_AFTER_SORTING));
     	this.view.showSlideShow(filteredSlideShow);
     	
-    	this.view.printMessage(view.bundle.getString(TextConstants.GOOD_LUCK));
+    	this.view.printMessage(view.getBundleString(TextConstants.GOOD_LUCK));
     }
-
+    
+	private static int getRandomNumber(int maxVal) {
+        Random rand = new Random();
+        return (int) 1 + rand.nextInt(maxVal);
+	}
 }

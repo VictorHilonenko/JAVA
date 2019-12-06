@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import ua.training.controller.ConfigSettings;
+import ua.training.ConfigSettings;
 import ua.training.model.entities.FileExtensionsVector;
 import ua.training.model.entities.GraphicFile;
 import ua.training.model.entities.RasterGraphicFile;

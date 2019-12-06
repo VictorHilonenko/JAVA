@@ -1,9 +1,6 @@
 package ua.training;
 
-import java.util.Locale;
-
 import ua.training.controller.Controller;
-import ua.training.view.View;
 
 /**
  * Task 1

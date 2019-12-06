@@ -21,7 +21,7 @@ public interface DefaultConfigSettings {
     /**
      * a real folder with some pictures
      */
-	public static final String PATH_TO_FOLDER_WITH_GRAPHIC_FILES = "D:\\Documents\\Java\\Tasks\\TASK1\\graphicFiles";
+	public static final String PATH_TO_FOLDER_WITH_GRAPHIC_FILES = "graphicFiles";
 	
     /**
      * a range of sizes to filter
@@ -45,5 +45,7 @@ public interface DefaultConfigSettings {
 	
 	//now we use random values
 	public static final String HOW_TO_SORT = "1";
+
+	public static final String DATE_FORMAT = "yyyy.MM.dd HH:mm:ss";
 	
 }

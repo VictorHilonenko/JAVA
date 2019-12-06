@@ -167,4 +167,18 @@ public class ConfigSettings {
 		return res;
 	}
 	
+	public String getDateFormat() {
+		String res = null;
+		
+		if(configRead != null) {
+			res = configRead.getString("DATE_FORMAT");
+		}
+		
+		if(res == null) {
+			res = DefaultConfigSettings.DATE_FORMAT;
+		}
+		
+		return res;
+	}
+	
 }

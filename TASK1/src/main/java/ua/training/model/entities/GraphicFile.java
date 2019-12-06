@@ -1,6 +1,8 @@
 package ua.training.model.entities;
 
 import java.io.File;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.StringJoiner;
@@ -123,6 +125,12 @@ public class GraphicFile {
 
     public long getLastModified() {
         return lastModified;
+    }
+
+    public String getLastModifiedAsString() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+		Date date = new Date(lastModified);
+		return dateFormat.format(date);
     }
 
     public void setLastModified(long lastModified) {

@@ -46,7 +46,7 @@ public class View {
     	printMessage(getBundleString(TextConstants.LIST_OF_FILES));
 		
     	for(GraphicFile graphicFile :slideShowGraphicFilesCollection.getGraphicFilesList()) {
-    		printMessage(graphicFile.getPathToFile()+" ("+graphicFile.getFileSize()+" "+strBytes+")"+graphicFile.getTags());
+    		printMessage(graphicFile.getPathToFile()+" ("+graphicFile.getFileSize()+" "+strBytes+" last modified: "+graphicFile.getLastModifiedAsString()+")"+graphicFile.getTags());
     	}
     	
 		System.out.println("================================================");

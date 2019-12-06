@@ -14,8 +14,10 @@ public class GraphicFile {
     private long lastModified;
     private HashSet<String> setOfTags;
     
-	private static String arrayOfTags[] = {"humor", "signs", "road", "nature", "unusual"};
-	
+	//TODO this array has to be removed after we get real tags from files now it is only for testing
+    private static String arrayOfTags[] = {"humor", "signs", "road", "nature", "unusual"};
+	//
+    
 	public static String getFileExtension(String absolutePath) {
 		String res = "";
 		

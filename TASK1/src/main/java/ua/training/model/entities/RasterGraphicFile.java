@@ -7,10 +7,6 @@ public class RasterGraphicFile extends GraphicFile {
     private long widthPixels;
     private long heightPixels;
     
-    public RasterGraphicFile() {
-    	super();
-	}
-
     public RasterGraphicFile(File file) {
        	super(file);
        	

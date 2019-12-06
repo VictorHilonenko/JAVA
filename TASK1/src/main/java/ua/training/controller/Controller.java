@@ -1,9 +1,9 @@
 package ua.training.controller;
 
+import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
-import ua.training.ConfigSettings;
 import ua.training.model.SlideShowGraphicFilesCollection;
 import ua.training.view.TextConstants;
 import ua.training.view.View;
@@ -29,11 +29,16 @@ import ua.training.view.View;
 
 public class Controller {
     private View view;
+    private ConfigSettings configSettings;
 
     private Scanner scannerInstance = null;
 
-    public Controller(View view) {
-        this.view = view;
+    public Controller() {
+    	configSettings = new ConfigSettings();
+    	
+        Locale userLocale = new Locale(configSettings.getUserLocaleLanguage(), configSettings.getUserLocaleCountry());
+        
+    	this.view = new View(userLocale);
     }
 
     private Scanner getScannerInstance() {
@@ -54,12 +59,12 @@ public class Controller {
         
         //* 1. to input path to folder
     	this.view.printMessage(view.getBundleString(TextConstants.INPUT_PATH_TO_FOLDER_WITH_GRAPHIC_FILES));
-        if(ConfigSettings.INTERACTIVE_MODE) {
+        if(configSettings.getInteractiveMode()) {
 	        if(sc.hasNextLine()) {
 	        	pathToFolderWithGraphicFiles = sc.nextLine();
 	        }
         } else {
-        	pathToFolderWithGraphicFiles = ConfigSettings.PATH_TO_FOLDER_WITH_GRAPHIC_FILES;
+        	pathToFolderWithGraphicFiles = configSettings.getPathToFolderWithGraphicFiles();
         }
         
     	this.view.printMessage(view.getBundleString(TextConstants.YOU_ENTERED));
@@ -84,7 +89,7 @@ public class Controller {
     	String howToFilter = "";
     	
     	this.view.printMessage(view.getBundleString(TextConstants.INPUT_HOW_TO_FILTER));
-        if(ConfigSettings.INTERACTIVE_MODE) {
+        if(configSettings.getInteractiveMode()) {
 	        if(sc.hasNextLine()) {
 	        	howToFilter = sc.nextLine();
 	        }
@@ -97,19 +102,19 @@ public class Controller {
         
 		if("1".equals(howToFilter)) { //1 - to filter files by size
 			//TODO create interaction to take users input for these bounds:
-			long minSize = ConfigSettings.MIN_SIZE;
-			long maxSize = ConfigSettings.MAX_SIZE;
+			long minSize = configSettings.getMinSize();
+			long maxSize = configSettings.getMaxSize();
 			
 			filteredSlideShow = slideShowGraphicFilesCollection.filterGraphicFilesBySize(minSize, maxSize);
 		} else if("2".equals(howToFilter)) { //2 - by last modified date
 			//TODO create interaction to take users input for these bounds:
-			long minDateModified = ConfigSettings.MIN_DATE_MODIFIED;
-			long maxDateModified = ConfigSettings.MAX_DATE_MODIFIED;
+			long minDateModified = configSettings.getMinDateModified();
+			long maxDateModified = configSettings.getMaxDateModified();
 			
 			filteredSlideShow = slideShowGraphicFilesCollection.filterGraphicFilesByLastModified(minDateModified, maxDateModified);
 		} else if("3".equals(howToFilter)) { //3 - by a tag:
 			//TODO create interaction to take users input for a tag:
-			String tag = ConfigSettings.TAG_TO_FILTER;
+			String tag = configSettings.getTagToFilter();
 			
 			filteredSlideShow = slideShowGraphicFilesCollection.filterGraphicFilesByTAGs(tag);
 		} else {
@@ -128,7 +133,7 @@ public class Controller {
     	String howToSort = "";
     	
     	this.view.printMessage(view.getBundleString(TextConstants.INPUT_HOW_TO_SORT));
-        if(ConfigSettings.INTERACTIVE_MODE) {
+        if(configSettings.getInteractiveMode()) {
 	        if(sc.hasNextLine()) {
 	        	howToSort = sc.nextLine();
 	        }

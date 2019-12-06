@@ -1,5 +1,7 @@
 package ua.training;
 
+import java.util.Locale;
+
 import ua.training.controller.Controller;
 import ua.training.view.View;
 
@@ -40,10 +42,8 @@ import ua.training.view.View;
 public class Main {
 
 	public static void main(String[] args) {
-        //Init
-        View view = new View();
-        Controller controller = new Controller(view);
-
+        Controller controller = new Controller();
+        
         //Run
         controller.processUserInput();
 	}

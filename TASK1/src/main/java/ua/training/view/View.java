@@ -1,22 +1,27 @@
 package ua.training.view;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
-import ua.training.ConfigSettings;
 import ua.training.model.SlideShowGraphicFilesCollection;
 import ua.training.model.entities.GraphicFile;
 
 public class View {
-	
     static String MESSAGES_BUNDLE_NAME = "messages";
-    private static final ResourceBundle bundle = ResourceBundle.getBundle(MESSAGES_BUNDLE_NAME, 
-    		ConfigSettings.USER_LOCALE);
+    
+	private Locale userLocale;
+	private ResourceBundle bundle;
+	
+	public View(Locale userLocale) {
+		this.userLocale = userLocale;
+		this.bundle = ResourceBundle.getBundle(MESSAGES_BUNDLE_NAME, this.userLocale);
+	}
     
     public String getBundleString(String strName) {
     	String res = bundle.getString(strName);
     	
-    	if(!"en".equals(ConfigSettings.USER_LOCALE.getDisplayLanguage())) {
+    	if(!"en".equals(userLocale.getDisplayLanguage())) {
     		try {
 				res = new String(res.getBytes("ISO-8859-1"), "UTF-8");
 			} catch (UnsupportedEncodingException e) {

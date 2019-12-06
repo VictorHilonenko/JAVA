@@ -1,11 +1,9 @@
-package ua.training;
-
-import java.util.Locale;
+package ua.training.controller;
 
 /**
  * this class is for all settings of project
  */
-public interface ConfigSettings {
+public interface DefaultConfigSettings {
 	/**
      * if INTERACTIVE_MODE is "true"
      * we'll let user to input initializing data manually
@@ -17,7 +15,8 @@ public interface ConfigSettings {
      * language setting
      */
 	//public static final Locale USER_LOCALE = new Locale("en", "US");
-	public static final Locale USER_LOCALE = new Locale("uk", "UA");
+	public static final String USER_LOCALE_LANGUAGE = "uk";
+	public static final String USER_LOCALE_COUNTRY = "UA";
     
     /**
      * a real folder with some pictures
@@ -41,8 +40,10 @@ public interface ConfigSettings {
      */
 	public static final String TAG_TO_FILTER = "signs";
 
+	//now we use random values
 	public static final String HOW_TO_FILTER = "1";
 	
+	//now we use random values
 	public static final String HOW_TO_SORT = "1";
 	
 }

@@ -6,6 +6,10 @@ public class VectorGraphicFile extends GraphicFile {
     private FileExtensionsVector fileExtension;
     private boolean hasOpenPaths;
     
+    public VectorGraphicFile() {
+    	super();
+	}
+
     public VectorGraphicFile(File file) {
     	super(file);
     	
@@ -16,7 +20,7 @@ public class VectorGraphicFile extends GraphicFile {
     	this.hasOpenPaths = false;
 	}
 
-    public FileExtensionsVector getFileExtension() {
+	public FileExtensionsVector getFileExtension() {
 		return fileExtension;
 	}
 	

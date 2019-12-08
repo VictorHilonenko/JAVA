@@ -1,13 +1,11 @@
 package com.company.controller;
 
 import com.company.model.Model;
+import com.company.model.ThisLoginIsAlreadyTakenException;
 import com.company.view.View;
 
 import java.util.Scanner;
 
-/**
- * Created by student on 26.09.2017.
- */
 public class Controller {
     private Model model;
     private View view;
@@ -19,8 +17,20 @@ public class Controller {
 
     public void processUser() {
         Scanner sc = new Scanner(System.in);
-        InputNoteNoteBook inputNoteNoteBook =
-                new InputNoteNoteBook(view, sc);
-        inputNoteNoteBook.inputNote();
+
+        InputNoteNoteBook inputNoteNoteBook = new InputNoteNoteBook(view, sc);
+
+        while (true) {
+            inputNoteNoteBook.inputNote();
+
+            try {
+                model.processNewNote(inputNoteNoteBook);
+                break;
+            } catch (ThisLoginIsAlreadyTakenException e) {
+                view.printTryAnotherLogin(e.getTakenLogin(), e.getSpecialMessageOfThisClass());
+            }
+        }
+
+        view.printCongratulations(inputNoteNoteBook);
     }
 }

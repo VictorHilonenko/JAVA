@@ -1,14 +1,12 @@
 package com.company.view;
 
+import com.company.controller.InputNoteNoteBook;
+
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static com.company.view.TextConstant.INPUT_STRING_DATA;
-import static com.company.view.TextConstant.WRONG_INPUT_DATA;
+import static com.company.view.TextConstant.*;
 
-/**
- * Created by student on 26.09.2017.
- */
 public class View {
 
     // Resource Bundle Installation's
@@ -24,9 +22,10 @@ public class View {
      *
      * @param message
      */
-    public void printMessage(String message){
+    public void printMessage(String message) {
         System.out.println(message);
     }
+
     /**
      *
      * @param message
@@ -53,5 +52,30 @@ public class View {
                 bundle.getString(message)));
     }
 
+    public void printTryAnotherLogin(String takenLogin, String specialMessageOfThisClass) {
+        printMessage(concatenationString(
+                bundle.getString(THE_LOGIN_YOU_ENTERED),
+                " \""+takenLogin+"\" ",
+                bundle.getString(IS_ALREADY_TAKEN)));
 
+        printMessage(bundle.getString(ALSO_MODEL_SAYS));
+
+        printMessage(concatenationString(
+                "e.getSpecialMessageOfThisClass = ",
+                specialMessageOfThisClass));
+    }
+
+    public void printCongratulations(InputNoteNoteBook inputNoteNoteBook) {
+        printMessage(bundle.getString(CONGRATULATIONS));
+
+        printMessage(bundle.getString(FIELDS_ARE));
+
+        printMessage(concatenationString(
+                "    firstName = ",
+                inputNoteNoteBook.getFirstName()));
+
+        printMessage(concatenationString(
+                "    login = ",
+                inputNoteNoteBook.getLogin()));
+    }
 }

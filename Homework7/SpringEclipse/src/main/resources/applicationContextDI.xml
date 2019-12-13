@@ -7,10 +7,19 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="musicBean" class="ua.training.di.JazzMusic" />
+    <bean id="musicBean1" class="ua.training.di.JazzMusic" />
 
-    <bean id="musicPlayer" class="ua.training.di.MusicPlayer">
-        <constructor-arg ref="musicBean" ></constructor-arg>
+    <bean id="musicPlayer1" class="ua.training.di.MusicPlayer">
+        <constructor-arg ref="musicBean1" ></constructor-arg>
+        <property name="name" value="musicBean1!" />
+    </bean>
+	
+    <bean id="musicBean2" class="ua.training.di.RockMusic" />
+
+    <bean id="musicPlayer2" class="ua.training.di.MusicPlayer">
+        <property name="music" ref="musicBean2" />
+        <property name="name" value="musicBean2!" />
+        <property name="volume" value="1000" />
     </bean>
 	
 </beans>

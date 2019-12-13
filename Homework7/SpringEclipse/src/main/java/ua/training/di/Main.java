@@ -11,9 +11,14 @@ public class Main {
 		  
 		  //Spring injected it: Music music = context.getBean("musicBean", Music.class);
 		  
-		  MusicPlayer musicPlayer = context.getBean("musicPlayer", MusicPlayer.class);
+		  MusicPlayer musicPlayer1 = context.getBean("musicPlayer1", MusicPlayer.class);
 		  
-		  musicPlayer.playMusic();
+		  musicPlayer1.playMusic();
+		  
+		  MusicPlayer musicPlayer2 = context.getBean("musicPlayer2", MusicPlayer.class);
+		  
+		  musicPlayer2.playMusic();
+		  System.out.println(musicPlayer2.getName() + " " + musicPlayer2.getVolume());
 		  
 		  context.close();
 		

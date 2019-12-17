@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import ua.training.model.SlideShowGraphicFilesCollection;
+import ua.training.model.SlideShowCollection;
 
 public class View {
     static String MESSAGES_BUNDLE_NAME = "messages";
@@ -35,7 +35,7 @@ public class View {
 		System.out.println(message);
     }
 
-	public void showSlideShow(SlideShowGraphicFilesCollection slideShowGraphicFilesCollection) {
+	public void showSlideShow(SlideShowCollection slideShowGraphicFilesCollection) {
     	String strBytes = getBundleString(TextConstants.BYTES);
     	
 		System.out.println("================================================");

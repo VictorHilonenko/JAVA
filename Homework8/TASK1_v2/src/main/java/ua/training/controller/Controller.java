@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
-import ua.training.model.SlideShowGraphicFilesCollection;
+import ua.training.model.SlideShowCollection;
 import ua.training.view.TextConstants;
 import ua.training.view.View;
 
@@ -51,8 +51,8 @@ public class Controller {
     //* 1. to input path to folder
 	//* 2. then we'll generate a SlideShow according to folder's contents
 	//* 3. then we'll show it with total size of it's files
-    private SlideShowGraphicFilesCollection processInitSlideShowGraphicFilesCollection() {
-    	SlideShowGraphicFilesCollection res;
+    private SlideShowCollection processInitSlideShow() {
+    	SlideShowCollection res;
     	
         Scanner sc = getScannerInstance();
         
@@ -71,13 +71,13 @@ public class Controller {
     	view.printMessage(view.getBundleString(TextConstants.YOU_ENTERED));
     	view.printMessage(pathToFolderWithGraphicFiles);
         
-		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(pathToFolderWithGraphicFiles);
+		SlideShowCollection slideShow = new SlideShowCollection(pathToFolderWithGraphicFiles);
         
-    	if(slideShowGraphicFilesCollection.getGraphicFilesList().size() == 0) {
+    	if(slideShow.getGraphicFilesList().size() == 0) {
 			view.printMessage(view.getBundleString(TextConstants.NOT_CREATED));
 	    	throw new RuntimeException();
     	} else {
-    		res = slideShowGraphicFilesCollection;
+    		res = slideShow;
     	}
     	
     	return res;
@@ -87,8 +87,8 @@ public class Controller {
 	//* 4.1. size
 	//* 4.2. time of last change
 	//* 4.3. tags
-    private SlideShowGraphicFilesCollection processFileredSlideShowGraphicFilesCollection(SlideShowGraphicFilesCollection slideShowGraphicFilesCollection) {
-        SlideShowGraphicFilesCollection filteredSlideShow;
+    private SlideShowCollection processFileredSlideShow(SlideShowCollection slideShow) {
+        SlideShowCollection filteredSlideShow;
         
     	String howToFilter = "";
     	
@@ -113,18 +113,18 @@ public class Controller {
 			long minSize = configSettings.getMinSize();
 			long maxSize = configSettings.getMaxSize();
 			
-			filteredSlideShow = slideShowGraphicFilesCollection.filterGraphicFilesBySize(minSize, maxSize);
+			filteredSlideShow = slideShow.filterBySize(minSize, maxSize);
 		} else if("2".equals(howToFilter)) { //2 - by last modified date
 			//TODO create interaction to take users input for these bounds:
 			long minDateModified = configSettings.getMinDateModified();
 			long maxDateModified = configSettings.getMaxDateModified();
 			
-			filteredSlideShow = slideShowGraphicFilesCollection.filterGraphicFilesByLastModified(minDateModified, maxDateModified);
+			filteredSlideShow = slideShow.filterByLastModified(minDateModified, maxDateModified);
 		} else if("3".equals(howToFilter)) { //3 - by a tag:
 			//TODO create interaction to take users input for a tag:
 			String tag = configSettings.getTagToFilter();
 			
-			filteredSlideShow = slideShowGraphicFilesCollection.filterGraphicFilesByTAGs(tag);
+			filteredSlideShow = slideShow.filterByTAGs(tag);
 		} else {
 	    	view.printMessage(view.getBundleString(TextConstants.INCORRECT_INPUT));
 	    	view.printMessage(view.getBundleString(TextConstants.GOOD_BYE));
@@ -137,7 +137,7 @@ public class Controller {
     
   	//* 6. then we'll ask user to choose a way how to sort that collection
   	//* 7. then we sort it and show the result to user
-    private SlideShowGraphicFilesCollection processSortedSlideShowGraphicFilesCollection(SlideShowGraphicFilesCollection slideShowGraphicFilesCollection) {
+    private SlideShowCollection processSortedSlideShow(SlideShowCollection slideShow) {
     	String howToSort = "";
     	
         Scanner sc = getScannerInstance();
@@ -156,33 +156,33 @@ public class Controller {
     	view.printMessage(howToSort);
         
 		if("1".equals(howToSort)) { //1 - to filter files by size
-			slideShowGraphicFilesCollection.sortGraphicFilesBySize();
+			slideShow.sortBySize();
 		} else if("2".equals(howToSort)) { //2 - by last modified date
-			slideShowGraphicFilesCollection.sortGraphicFilesByLastModified();
+			slideShow.sortByLastModified();
 		} else if("3".equals(howToSort)) { //3 - by a tag:
-			slideShowGraphicFilesCollection.sortGraphicFilesByTAGs();
+			slideShow.sortByTAGs();
 		} else {
 	    	view.printMessage(view.getBundleString(TextConstants.INCORRECT_INPUT));
 	    	view.printMessage(view.getBundleString(TextConstants.GOOD_BYE));
 	    	throw new RuntimeException();
 		}
 		
-		return slideShowGraphicFilesCollection;
+		return slideShow;
     }
         
     // Interaction
     public void processUserInput() {
-    	SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = processInitSlideShowGraphicFilesCollection();
+    	SlideShowCollection slideShow = processInitSlideShow();
     	
 		view.printMessage(view.getBundleString(TextConstants.WE_CREATED));
-    	view.showSlideShow(slideShowGraphicFilesCollection);
+    	view.showSlideShow(slideShow);
     	
-    	SlideShowGraphicFilesCollection filteredSlideShow = processFileredSlideShowGraphicFilesCollection(slideShowGraphicFilesCollection);
+    	SlideShowCollection filteredSlideShow = processFileredSlideShow(slideShow);
     	
 		view.printMessage(view.getBundleString(TextConstants.RESULT_AFTER_FILTERING));
     	view.showSlideShow(filteredSlideShow);
     	
-    	SlideShowGraphicFilesCollection sortedSlideShow = processSortedSlideShowGraphicFilesCollection(filteredSlideShow);
+    	SlideShowCollection sortedSlideShow = processSortedSlideShow(filteredSlideShow);
     	
 		view.printMessage(view.getBundleString(TextConstants.RESULT_AFTER_SORTING));
     	view.showSlideShow(sortedSlideShow);

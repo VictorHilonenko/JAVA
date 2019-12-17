@@ -12,7 +12,7 @@ import ua.training.model.entities.IGraphicFile;
 import ua.training.model.entities.RasterGraphicFile;
 import ua.training.model.entities.VectorGraphicFile;
 
-public class SlideShowGraphicFilesCollectionTest {
+public class SlideShowCollectionTest {
 	
 	private ArrayList<IGraphicFile> createAnExampleListOfFiles() {
 		ArrayList<IGraphicFile> availableGraphicFilesList = new ArrayList<IGraphicFile>();
@@ -56,18 +56,18 @@ public class SlideShowGraphicFilesCollectionTest {
 	public void testSlideShowGraphicFilesCollectionBasedOnList() {
 		ArrayList<IGraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
 		
-		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		SlideShowCollection slideShow = new SlideShowCollection(availableGraphicFilesList);
 		
-		assertTrue(slideShowGraphicFilesCollection.getGraphicFilesList().size() == 3); //that means that Constructor builds that list)
+		assertTrue(slideShow.getGraphicFilesList().size() == 3); //that means that Constructor builds that list)
 	}
 	
 	@Test
 	public void testSlideShowFilesTotalSize() {
 		ArrayList<IGraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
 		
-		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		SlideShowCollection slideShow = new SlideShowCollection(availableGraphicFilesList);
 		
-		assertTrue(slideShowGraphicFilesCollection.slideShowFilesTotalSize() == 300006L);
+		assertTrue(slideShow.slideShowFilesTotalSize() == 300006L);
 	}
 	
 	@Test
@@ -75,52 +75,52 @@ public class SlideShowGraphicFilesCollectionTest {
 	//this test is written only for TDD and is actual only in certain case on certain computer
 	//so after this Constructor is done and checked, it is recommended to disable this test 
 	public void testSlideShowGraphicFilesCollectionBasedOnFolder() {
-		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(DefaultConfigSettings.PATH_TO_FOLDER_WITH_GRAPHIC_FILES);
+		SlideShowCollection slideShow = new SlideShowCollection(DefaultConfigSettings.PATH_TO_FOLDER_WITH_GRAPHIC_FILES);
 		
-		assertTrue(slideShowGraphicFilesCollection.slideShowFilesTotalSize() == 478864L);
+		assertTrue(slideShow.slideShowFilesTotalSize() == 478864L);
 	}
 
 	@Test
 	public void testFilterGraphicFilesBySize() {
 		ArrayList<IGraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
 		
-		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		SlideShowCollection slideShow = new SlideShowCollection(availableGraphicFilesList);
 		
-		SlideShowGraphicFilesCollection filteredSlideShowGraphicFilesCollection = slideShowGraphicFilesCollection.filterGraphicFilesBySize(100002L, 100002L);
+		SlideShowCollection filteredSlideShow = slideShow.filterBySize(100002L, 100002L);
 		
-		assertEquals("incorrect filtering by size!", 100002L, filteredSlideShowGraphicFilesCollection.slideShowFilesTotalSize());
+		assertEquals("incorrect filtering by size!", 100002L, filteredSlideShow.slideShowFilesTotalSize());
 	}
 
 	@Test
 	public void testFilterGraphicFilesByLastModified() {
 		ArrayList<IGraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
 		
-		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		SlideShowCollection slideShow = new SlideShowCollection(availableGraphicFilesList);
 		
-		SlideShowGraphicFilesCollection filteredSlideShowGraphicFilesCollection = slideShowGraphicFilesCollection.filterGraphicFilesByLastModified(1575160669850L, 1575160669950L);
+		SlideShowCollection filteredSlideShow = slideShow.filterByLastModified(1575160669850L, 1575160669950L);
 		
-		assertEquals("incorrect filtering by last modified!", 1, filteredSlideShowGraphicFilesCollection.getGraphicFilesList().size());
+		assertEquals("incorrect filtering by last modified!", 1, filteredSlideShow.getGraphicFilesList().size());
 	}
 
 	@Test
 	public void testFilterGraphicFilesByTAGs() {
 		ArrayList<IGraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
 		
-		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
+		SlideShowCollection slideShow = new SlideShowCollection(availableGraphicFilesList);
 		
-		SlideShowGraphicFilesCollection filteredSlideShowGraphicFilesCollection = slideShowGraphicFilesCollection.filterGraphicFilesByTAGs("signs");
+		SlideShowCollection filteredSlideShow = slideShow.filterByTAGs("signs");
 		
-		assertEquals("incorrect filtering by tag!", 2, filteredSlideShowGraphicFilesCollection.getGraphicFilesList().size());
+		assertEquals("incorrect filtering by tag!", 2, filteredSlideShow.getGraphicFilesList().size());
 	}
 
 	@Test
 	public void testSortGraphicFilesBySize() {
 		ArrayList<IGraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
 		
-		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
-		slideShowGraphicFilesCollection.sortGraphicFilesBySize();
+		SlideShowCollection slideShow = new SlideShowCollection(availableGraphicFilesList);
+		slideShow.sortBySize();
 		
-		IGraphicFile firstGraphicFile = slideShowGraphicFilesCollection.getGraphicFilesList().get(0);
+		IGraphicFile firstGraphicFile = slideShow.getGraphicFilesList().get(0);
 		
 		assertEquals("incorrect sorting by size!", "3", firstGraphicFile.name());
 	}
@@ -129,10 +129,10 @@ public class SlideShowGraphicFilesCollectionTest {
 	public void testSortGraphicFilesByLastModified() {
 		ArrayList<IGraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
 		
-		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
-		slideShowGraphicFilesCollection.sortGraphicFilesByLastModified();
+		SlideShowCollection slideShow = new SlideShowCollection(availableGraphicFilesList);
+		slideShow.sortByLastModified();
 		
-		IGraphicFile firstGraphicFile = slideShowGraphicFilesCollection.getGraphicFilesList().get(0);
+		IGraphicFile firstGraphicFile = slideShow.getGraphicFilesList().get(0);
 		
 		assertEquals("incorrect sorting by size!", "2", firstGraphicFile.name());
 	}
@@ -141,10 +141,10 @@ public class SlideShowGraphicFilesCollectionTest {
 	public void testSortGraphicFilesByTAGs() {
 		ArrayList<IGraphicFile> availableGraphicFilesList = createAnExampleListOfFiles();
 		
-		SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = new SlideShowGraphicFilesCollection(availableGraphicFilesList);
-		slideShowGraphicFilesCollection.sortGraphicFilesByTAGs();
+		SlideShowCollection slideShow = new SlideShowCollection(availableGraphicFilesList);
+		slideShow.sortByTAGs();
 		
-		IGraphicFile firstGraphicFile = slideShowGraphicFilesCollection.getGraphicFilesList().get(0);
+		IGraphicFile firstGraphicFile = slideShow.getGraphicFilesList().get(0);
 		
 		assertEquals("incorrect sorting by size!", "2", firstGraphicFile.name());
 	}

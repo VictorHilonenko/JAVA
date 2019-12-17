@@ -21,14 +21,14 @@ import lombok.*;
  * a collection, that represents list of GraphicFiles which can be
  * RasterGraphicFile or VectorGraphicFile
  */
-public class SlideShowGraphicFilesCollection {
+public class SlideShowCollection {
 	private ArrayList<IGraphicFile> graphicFilesList;
 
 	/**
 	 * this constructor creates graphicFilesList based on given list @param
 	 * newGraphicFilesList
 	 */
-	public SlideShowGraphicFilesCollection(ArrayList<IGraphicFile> newGraphicFilesList) {
+	public SlideShowCollection(ArrayList<IGraphicFile> newGraphicFilesList) {
 		graphicFilesList = new ArrayList<IGraphicFile>(newGraphicFilesList);
 	}
 
@@ -36,7 +36,7 @@ public class SlideShowGraphicFilesCollection {
 	 * this constructor creates graphicFilesList based on @param pathToFolder
 	 * contents
 	 */
-	public SlideShowGraphicFilesCollection(String pathToFolder) {
+	public SlideShowCollection(String pathToFolder) {
 		graphicFilesList = new ArrayList<IGraphicFile>();
 
 		if ("".equals(pathToFolder)) {
@@ -81,7 +81,7 @@ public class SlideShowGraphicFilesCollection {
 	 * of @param minSize and @param maxSize and returns a new
 	 * SlideShowGraphicFilesCollection
 	 */
-	public SlideShowGraphicFilesCollection filterGraphicFilesBySize(long minSize, long maxSize) {
+	public SlideShowCollection filterBySize(long minSize, long maxSize) {
 		if ((minSize < 0) || (maxSize < 0)) {
 			throw new IllegalArgumentException();
 		}
@@ -112,7 +112,7 @@ public class SlideShowGraphicFilesCollection {
 				.collect(Collectors.toList());
 		}
 
-		return new SlideShowGraphicFilesCollection(newGraphicFilesList);
+		return new SlideShowCollection(newGraphicFilesList);
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class SlideShowGraphicFilesCollection {
 	 * of @param minDateModified and @param maxDateModified and returns a new
 	 * SlideShowGraphicFilesCollection
 	 */
-	public SlideShowGraphicFilesCollection filterGraphicFilesByLastModified(long minDateModified, long maxDateModified) {
+	public SlideShowCollection filterByLastModified(long minDateModified, long maxDateModified) {
 		if ((minDateModified < 0) || (maxDateModified < 0)) {
 			throw new IllegalArgumentException();
 		}
@@ -150,14 +150,14 @@ public class SlideShowGraphicFilesCollection {
 				.collect(Collectors.toList());
 		}
 
-		return new SlideShowGraphicFilesCollection(newGraphicFilesList);
+		return new SlideShowCollection(newGraphicFilesList);
 	}
 
 	/**
 	 * this method filters current SlideShowGraphicFilesCollection by @param tags
 	 * and returns a new SlideShowGraphicFilesCollection
 	 */
-	public SlideShowGraphicFilesCollection filterGraphicFilesByTAGs(String... tags) {
+	public SlideShowCollection filterByTAGs(String... tags) {
 		ArrayList<IGraphicFile> newGraphicFilesList = new ArrayList<IGraphicFile>();
 
 		//TODO looks a bit tricky how to filter it with streams, leave so for a while:
@@ -172,13 +172,13 @@ public class SlideShowGraphicFilesCollection {
 			}
 		}
 
-		return new SlideShowGraphicFilesCollection(newGraphicFilesList);
+		return new SlideShowCollection(newGraphicFilesList);
 	}
 
 	/**
 	 * sorts current graphicFilesList in Ascending order by file size
 	 */
-	public void sortGraphicFilesBySize() {
+	public void sortBySize() {
 		graphicFilesList = (ArrayList<IGraphicFile>) graphicFilesList.stream()
 		.sorted(Comparator.comparingLong(IGraphicFile::fileSize))
 		.collect(Collectors.toList());
@@ -187,7 +187,7 @@ public class SlideShowGraphicFilesCollection {
 	/**
 	 * sorts current graphicFilesList in Ascending order by last modified datetime
 	 */
-	public void sortGraphicFilesByLastModified() {
+	public void sortByLastModified() {
 		graphicFilesList = (ArrayList<IGraphicFile>) graphicFilesList.stream()
 		.sorted(Comparator.comparingLong(IGraphicFile::lastModified))
 		.collect(Collectors.toList());
@@ -196,7 +196,7 @@ public class SlideShowGraphicFilesCollection {
 	/**
 	 * sorts current graphicFilesList in Ascending order by first TAG
 	 */
-	public void sortGraphicFilesByTAGs() {
+	public void sortByTAGs() {
 		graphicFilesList = (ArrayList<IGraphicFile>) graphicFilesList.stream()
 		.sorted(Comparator.comparing(IGraphicFile::firstTag))
 		.collect(Collectors.toList());

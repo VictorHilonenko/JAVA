@@ -7,7 +7,11 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.StringJoiner;
 
-public class GraphicFile {
+import lombok.*;
+
+@Getter
+@Setter
+public abstract class GraphicFile implements IGraphicFile {
     private String name;
     private String pathToFile;
     private long fileSize;
@@ -18,31 +22,6 @@ public class GraphicFile {
     private static String arrayOfTags[] = {"humor", "signs", "road", "nature", "unusual"};
 	//
     
-	public static String getFileExtension(String absolutePath) {
-		String res = "";
-		
-		int lastPoint = absolutePath.lastIndexOf(".");
-		
-		if(lastPoint > - 1) {
-			res = absolutePath.substring(lastPoint+1);
-		}
-		
-		return res;
-	}
-
-    public static String getFileNameWithoutExtension(String absolutePath) {
-		String res = "";
-		
-		int lastSlash = absolutePath.lastIndexOf("\\");
-		int lastPoint = absolutePath.lastIndexOf(".");
-		
-		if((lastPoint > - 1) && (lastSlash > -1)) {
-			res = absolutePath.substring(lastSlash+1, lastPoint);
-		}
-		
-		return res;
-	}
-
     public GraphicFile() {
     	this.setOfTags = new HashSet<String>();
 	}
@@ -60,6 +39,59 @@ public class GraphicFile {
 		for(int i=0;i<=numOfTags-1;i++) {
 			addTag(getRandomTag());
 		}
+	}
+    
+	@Override
+	public String name() {
+		return name;
+	}
+
+	@Override
+	public String pathToFile() {
+		return pathToFile;
+	}
+
+	@Override
+	public long fileSize() {
+		return fileSize;
+	}
+
+	@Override
+	public long lastModified() {
+		return lastModified;
+	}
+
+	@Override
+	public HashSet<String> setOfTags() {
+		return setOfTags;
+	}
+    
+	@Override
+	public String firstTag() {
+		return getFirstTag();
+	}
+
+	@Override
+	public String lastModifiedAsString() {
+		return getLastModifiedAsString();
+	}
+
+	@Override
+	public String tags() {
+		return getTags();
+	}
+
+    public static String getFileNameWithoutExtension(String absolutePath) {
+		String res = "";
+		
+		int lastSlash = absolutePath.lastIndexOf("\\");
+		int lastPoint = absolutePath.lastIndexOf(".");
+		
+		if((lastPoint > - 1) && (lastSlash > -1)) {
+			res = absolutePath.substring(lastSlash+1, lastPoint);
+		}
+		
+		return res;
 	}
 
     public boolean hasTag(String tag) {
@@ -105,50 +137,10 @@ public class GraphicFile {
 		return arrayOfTags[getRandomNumber(arrayOfTags.length)];
 	}
 	
-	public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPathToFile() {
-        return pathToFile;
-    }
-
-    public void setPathToFile(String pathToFile) {
-        this.pathToFile = pathToFile;
-    }
-
-    public long getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(long fileSize) {
-        this.fileSize = fileSize;
-    }
-
-    public long getLastModified() {
-        return lastModified;
-    }
-
     public String getLastModifiedAsString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 		Date date = new Date(lastModified);
 		return dateFormat.format(date);
-    }
-
-    public void setLastModified(long lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public HashSet<String> getSetOfTags() {
-        return setOfTags;
-    }
-
-    public void setSetOfTags(HashSet<String> setOfTags) {
-        this.setOfTags = setOfTags;
     }
 
 }

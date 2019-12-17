@@ -3,7 +3,7 @@ package ua.training;
 import ua.training.controller.Controller;
 
 /**
- * Task 1
+ * Task 1 (refactored)
  * 
  * Создать консольное (WEB) приложение, удовлетворяющее следующим требованиям:
  * 

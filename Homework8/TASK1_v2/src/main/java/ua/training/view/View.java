@@ -5,7 +5,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import ua.training.model.SlideShowGraphicFilesCollection;
-import ua.training.model.entities.GraphicFile;
 
 public class View {
     static String MESSAGES_BUNDLE_NAME = "messages";
@@ -45,9 +44,8 @@ public class View {
     	printMessage(getBundleString(TextConstants.TOTAL_SIZE_OF_FILES)+" "+slideShowGraphicFilesCollection.slideShowFilesTotalSize()+" "+strBytes);
     	printMessage(getBundleString(TextConstants.LIST_OF_FILES));
 		
-    	for(GraphicFile graphicFile :slideShowGraphicFilesCollection.getGraphicFilesList()) {
-    		printMessage(graphicFile.getPathToFile()+" ("+graphicFile.getFileSize()+" "+strBytes+" last modified: "+graphicFile.getLastModifiedAsString()+")"+graphicFile.getTags());
-    	}
+    	slideShowGraphicFilesCollection.getGraphicFilesList().stream()
+    		.forEach((iGF) -> printMessage(iGF.pathToFile()+" ("+iGF.fileSize()+" "+strBytes+" last modified: "+iGF.lastModifiedAsString()+")"+iGF.tags()));
     	
 		System.out.println("================================================");
 		System.out.println("");

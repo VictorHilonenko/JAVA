@@ -2,18 +2,19 @@ package ua.training.model;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import ua.training.model.entities.VectorGraphicFile;
 import ua.training.model.entities.FileExtensionsRaster;
 import ua.training.model.entities.FileExtensionsVector;
-import ua.training.model.entities.GraphicFile;
+import ua.training.model.entities.IGraphicFile;
 import ua.training.model.entities.RasterGraphicFile;
+
+import lombok.*;
+
+@Getter
+@Setter
 
 /**
  * this is a main Model class of MVC pattern SlideShowGraphicFilesCollection is
@@ -21,14 +22,14 @@ import ua.training.model.entities.RasterGraphicFile;
  * RasterGraphicFile or VectorGraphicFile
  */
 public class SlideShowGraphicFilesCollection {
-	private ArrayList<GraphicFile> graphicFilesList;
+	private ArrayList<IGraphicFile> graphicFilesList;
 
 	/**
 	 * this constructor creates graphicFilesList based on given list @param
 	 * newGraphicFilesList
 	 */
-	public SlideShowGraphicFilesCollection(ArrayList<GraphicFile> newGraphicFilesList) {
-		graphicFilesList = new ArrayList<GraphicFile>(newGraphicFilesList);
+	public SlideShowGraphicFilesCollection(ArrayList<IGraphicFile> newGraphicFilesList) {
+		graphicFilesList = new ArrayList<IGraphicFile>(newGraphicFilesList);
 	}
 
 	/**
@@ -36,7 +37,7 @@ public class SlideShowGraphicFilesCollection {
 	 * contents
 	 */
 	public SlideShowGraphicFilesCollection(String pathToFolder) {
-		graphicFilesList = new ArrayList<GraphicFile>();
+		graphicFilesList = new ArrayList<IGraphicFile>();
 
 		if ("".equals(pathToFolder)) {
 			return;
@@ -55,7 +56,7 @@ public class SlideShowGraphicFilesCollection {
 		}
 
 		for (File file : files) {
-			String fileExtensionUpperCase = GraphicFile.getFileExtension(file.getAbsolutePath()).toUpperCase();
+			String fileExtensionUpperCase = IGraphicFile.getFileExtension(file.getAbsolutePath()).toUpperCase();
 
 			if (FileExtensionsVector.getValueOf(fileExtensionUpperCase) != null) {
 				graphicFilesList.add(new VectorGraphicFile(file));
@@ -64,21 +65,14 @@ public class SlideShowGraphicFilesCollection {
 			}
 		}
 	}
-
-	/**
-	 * getter for graphicFilesList
-	 */
-	public ArrayList<GraphicFile> getGraphicFilesList() {
-		return graphicFilesList;
-	}
-
+	
 	/**
 	 * this method returns total files size of current
 	 * SlideShowGraphicFilesCollection
 	 */
 	public long slideShowFilesTotalSize() {
 		return graphicFilesList.stream()
-				.mapToLong(GraphicFile::getFileSize)
+				.mapToLong(IGraphicFile::fileSize)
 				.sum();
 	}
 
@@ -89,46 +83,33 @@ public class SlideShowGraphicFilesCollection {
 	 */
 	public SlideShowGraphicFilesCollection filterGraphicFilesBySize(long minSize, long maxSize) {
 		if ((minSize < 0) || (maxSize < 0)) {
-			// TODO maybe throw exception "invalid parameters" in future releases
-			return null;
+			throw new IllegalArgumentException();
 		}
 		
-/*		
-		ArrayList<GraphicFile> newGraphicFilesList = (ArrayList<GraphicFile>) graphicFilesList.stream()
-				.filter((gf) -> {
-					if ((minSize > 0) && (maxSize == 0)) {
-						if (gf.getFileSize() >= minSize) {
-							return true;
-						} else {
-							return false;
-						}
-					}
-				}).sorted()
-*/
-		
-		
-		ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>;
+		ArrayList<IGraphicFile> newGraphicFilesList;
 		
 		if ((minSize == 0) && (maxSize == 0)) {
 			newGraphicFilesList = graphicFilesList;
 		} else {
-			newGraphicFilesList = new ArrayList<GraphicFile>();
-			for (GraphicFile graphicFile : graphicFilesList) {
-				long fileSize = graphicFile.getFileSize();
-				if ((minSize > 0) && (maxSize == 0)) {
-					if (fileSize >= minSize) {
-						newGraphicFilesList.add(graphicFile);
+			newGraphicFilesList = (ArrayList<IGraphicFile>) graphicFilesList.stream()
+				.filter((iGF) -> {
+					long fileSize = iGF.fileSize();
+					if ((minSize > 0) && (maxSize == 0)) {
+						if (fileSize >= minSize) {
+							return true;
+						}
+					} else if ((minSize == 0) && (maxSize > 0)) {
+						if (fileSize <= maxSize) {
+							return true;
+						}
+					} else {
+						if ((minSize <= fileSize) && (fileSize <= maxSize)) {
+							return true;
+						}
 					}
-				} else if ((minSize == 0) && (maxSize > 0)) {
-					if (fileSize <= maxSize) {
-						newGraphicFilesList.add(graphicFile);
-					}
-				} else {
-					if ((minSize <= fileSize) && (fileSize <= maxSize)) {
-						newGraphicFilesList.add(graphicFile);
-					}
-				}
-			}
+					return false;
+				})
+				.collect(Collectors.toList());
 		}
 
 		return new SlideShowGraphicFilesCollection(newGraphicFilesList);
@@ -139,34 +120,34 @@ public class SlideShowGraphicFilesCollection {
 	 * of @param minDateModified and @param maxDateModified and returns a new
 	 * SlideShowGraphicFilesCollection
 	 */
-	public SlideShowGraphicFilesCollection filterGraphicFilesByLastModified(long minDateModified,
-			long maxDateModified) {
+	public SlideShowGraphicFilesCollection filterGraphicFilesByLastModified(long minDateModified, long maxDateModified) {
 		if ((minDateModified < 0) || (maxDateModified < 0)) {
-			// TODO maybe throw exception "invalid parameters" in future releases
-			return null;
+			throw new IllegalArgumentException();
 		}
 
-		ArrayList<GraphicFile> newGraphicFilesList;
+		ArrayList<IGraphicFile> newGraphicFilesList;
 		if ((minDateModified == 0) && (maxDateModified == 0)) {
 			newGraphicFilesList = graphicFilesList;
 		} else {
-			newGraphicFilesList = new ArrayList<GraphicFile>();
-			for (GraphicFile graphicFile : graphicFilesList) {
-				long fileLastModified = graphicFile.getLastModified();
-				if ((minDateModified > 0) && (maxDateModified == 0)) {
-					if (fileLastModified >= minDateModified) {
-						newGraphicFilesList.add(graphicFile);
+			newGraphicFilesList = (ArrayList<IGraphicFile>) graphicFilesList.stream()
+				.filter((iGF) -> {
+					long fileLastModified = iGF.lastModified();
+					if ((minDateModified > 0) && (maxDateModified == 0)) {
+						if (fileLastModified >= minDateModified) {
+							return true;
+						}
+					} else if ((minDateModified == 0) && (maxDateModified > 0)) {
+						if (fileLastModified <= maxDateModified) {
+							return true;
+						}
+					} else {
+						if ((minDateModified <= fileLastModified) && (fileLastModified <= maxDateModified)) {
+							return true;
+						}
 					}
-				} else if ((minDateModified == 0) && (maxDateModified > 0)) {
-					if (fileLastModified <= maxDateModified) {
-						newGraphicFilesList.add(graphicFile);
-					}
-				} else {
-					if ((minDateModified <= fileLastModified) && (fileLastModified <= maxDateModified)) {
-						newGraphicFilesList.add(graphicFile);
-					}
-				}
-			}
+					return false;
+				})
+				.collect(Collectors.toList());
 		}
 
 		return new SlideShowGraphicFilesCollection(newGraphicFilesList);
@@ -177,13 +158,14 @@ public class SlideShowGraphicFilesCollection {
 	 * and returns a new SlideShowGraphicFilesCollection
 	 */
 	public SlideShowGraphicFilesCollection filterGraphicFilesByTAGs(String... tags) {
-		ArrayList<GraphicFile> newGraphicFilesList = new ArrayList<GraphicFile>();
+		ArrayList<IGraphicFile> newGraphicFilesList = new ArrayList<IGraphicFile>();
 
+		//TODO looks a bit tricky how to filter it with streams, leave so for a while:
 		if (tags.length > 0) {
-			for (GraphicFile graphicFile : graphicFilesList) {
+			for (IGraphicFile iGF : graphicFilesList) {
 				for (String tag : tags) {
-					if (graphicFile.hasTag(tag)) {
-						newGraphicFilesList.add(graphicFile);
+					if (iGF.hasTag(tag)) {
+						newGraphicFilesList.add(iGF);
 						break;
 					}
 				}
@@ -197,9 +179,8 @@ public class SlideShowGraphicFilesCollection {
 	 * sorts current graphicFilesList in Ascending order by file size
 	 */
 	public void sortGraphicFilesBySize() {
-		graphicFilesList = (ArrayList<GraphicFile>) graphicFilesList
-		.stream()
-		.sorted(Comparator.comparingLong(GraphicFile::getFileSize))
+		graphicFilesList = (ArrayList<IGraphicFile>) graphicFilesList.stream()
+		.sorted(Comparator.comparingLong(IGraphicFile::fileSize))
 		.collect(Collectors.toList());
 	}
 
@@ -207,9 +188,8 @@ public class SlideShowGraphicFilesCollection {
 	 * sorts current graphicFilesList in Ascending order by last modified datetime
 	 */
 	public void sortGraphicFilesByLastModified() {
-		graphicFilesList = (ArrayList<GraphicFile>) graphicFilesList
-		.stream()
-		.sorted(Comparator.comparingLong(GraphicFile::getLastModified))
+		graphicFilesList = (ArrayList<IGraphicFile>) graphicFilesList.stream()
+		.sorted(Comparator.comparingLong(IGraphicFile::lastModified))
 		.collect(Collectors.toList());
 	}
 
@@ -217,9 +197,8 @@ public class SlideShowGraphicFilesCollection {
 	 * sorts current graphicFilesList in Ascending order by first TAG
 	 */
 	public void sortGraphicFilesByTAGs() {
-		graphicFilesList = (ArrayList<GraphicFile>) graphicFilesList
-		.stream()
-		.sorted(Comparator.comparing(GraphicFile::getFirstTag))
+		graphicFilesList = (ArrayList<IGraphicFile>) graphicFilesList.stream()
+		.sorted(Comparator.comparing(IGraphicFile::firstTag))
 		.collect(Collectors.toList());
 	}
 	

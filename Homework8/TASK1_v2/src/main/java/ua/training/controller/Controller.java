@@ -52,7 +52,7 @@ public class Controller {
 	//* 2. then we'll generate a SlideShow according to folder's contents
 	//* 3. then we'll show it with total size of it's files
     private SlideShowGraphicFilesCollection processInitSlideShowGraphicFilesCollection() {
-    	SlideShowGraphicFilesCollection res = null;
+    	SlideShowGraphicFilesCollection res;
     	
         Scanner sc = getScannerInstance();
         
@@ -75,6 +75,7 @@ public class Controller {
         
     	if(slideShowGraphicFilesCollection.getGraphicFilesList().size() == 0) {
 			view.printMessage(view.getBundleString(TextConstants.NOT_CREATED));
+	    	throw new RuntimeException();
     	} else {
     		res = slideShowGraphicFilesCollection;
     	}
@@ -87,7 +88,7 @@ public class Controller {
 	//* 4.2. time of last change
 	//* 4.3. tags
     private SlideShowGraphicFilesCollection processFileredSlideShowGraphicFilesCollection(SlideShowGraphicFilesCollection slideShowGraphicFilesCollection) {
-        SlideShowGraphicFilesCollection filteredSlideShow = null;
+        SlideShowGraphicFilesCollection filteredSlideShow;
         
     	String howToFilter = "";
     	
@@ -127,6 +128,7 @@ public class Controller {
 		} else {
 	    	view.printMessage(view.getBundleString(TextConstants.INCORRECT_INPUT));
 	    	view.printMessage(view.getBundleString(TextConstants.GOOD_BYE));
+	    	throw new RuntimeException();
 		}
 		
     	
@@ -162,7 +164,7 @@ public class Controller {
 		} else {
 	    	view.printMessage(view.getBundleString(TextConstants.INCORRECT_INPUT));
 	    	view.printMessage(view.getBundleString(TextConstants.GOOD_BYE));
-	    	return null;
+	    	throw new RuntimeException();
 		}
 		
 		return slideShowGraphicFilesCollection;
@@ -170,31 +172,18 @@ public class Controller {
         
     // Interaction
     public void processUserInput() {
-    	
     	SlideShowGraphicFilesCollection slideShowGraphicFilesCollection = processInitSlideShowGraphicFilesCollection();
-    	
-    	if(slideShowGraphicFilesCollection == null) {
-    		return;
-    	}
     	
 		view.printMessage(view.getBundleString(TextConstants.WE_CREATED));
     	view.showSlideShow(slideShowGraphicFilesCollection);
     	
     	SlideShowGraphicFilesCollection filteredSlideShow = processFileredSlideShowGraphicFilesCollection(slideShowGraphicFilesCollection);
     	
-    	if(filteredSlideShow == null) {
-    		return;
-    	}
-		
 		view.printMessage(view.getBundleString(TextConstants.RESULT_AFTER_FILTERING));
     	view.showSlideShow(filteredSlideShow);
     	
     	SlideShowGraphicFilesCollection sortedSlideShow = processSortedSlideShowGraphicFilesCollection(filteredSlideShow);
     	
-    	if(sortedSlideShow == null) {
-    		return;
-    	}
-		
 		view.printMessage(view.getBundleString(TextConstants.RESULT_AFTER_SORTING));
     	view.showSlideShow(sortedSlideShow);
     	

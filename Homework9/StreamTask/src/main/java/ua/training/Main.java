@@ -1,9 +1,11 @@
 package ua.training;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
-import java.util.stream.Collectors;
+import java.util.Map.Entry;
 import java.util.stream.IntStream;
 
 /**
@@ -53,16 +55,34 @@ public class Main {
 			System.out.println("nothing");
 		}
 		
-		//2
+		//2.a
 		intStream = Arrays.stream(intArray);
 		OptionalInt intMin = intStream.min();
-		System.out.println("min element (w/o it's index yet)");
 		
 		if (intMin.isPresent()) {
-			System.out.println(intMin.getAsInt());
+			System.out.println("min value: " + intMin.getAsInt() + ", w/o it's index");
 		} else {
-			System.out.println("...");
+			System.out.println("not found...");
 		}
+		
+		//2.b
+		intStream = Arrays.stream(intArray);
+		Map<Integer, Integer> map = intStream
+				.map(i -> i)
+		        .collect(HashMap::new, (m,i)->m.put(m.size(), i), Map::putAll);
+
+		//System.out.println(map);
+        
+		Optional<Entry<Integer, Integer>> entry = map.entrySet()
+			.stream()
+			.min((x, y) -> Long.compare(x.getValue(), y.getValue()));
+	
+		if(entry.isPresent()) {
+			System.out.println("min value: " + entry.get().getValue() + ", it's index: " + entry.get().getKey());
+		} else {
+			System.out.println("not found...");
+		}
+		
 		
 		//3
 		intStream = Arrays.stream(intArray);
